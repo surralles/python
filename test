@@ -1,0 +1,20 @@
+with open('quotes.txt', "r", encoding = "UTF-8") as file:
+    for line in file:
+        print(line)
+   
+
+author = input("¿Quién escribió estas líneas?")
+with open('quotes.txt', "a",  encoding = "UTF-8") as file:
+    file.write("("+author+")"+"\n")
+
+
+while True:
+    answer = input("¿Quieres agregar otra cotización? (sí/no)")
+    answer = answer.lower()
+    if answer == "sí":
+        quote = input("Ingrese una cotización: ")
+        author = input("Ingrese un autor: ")
+        file = open("quotes.txt", "a",  encoding = "UTF-8")
+        file.write(quote+"\n"+"("+author+")"+"\n")
+        file.close()
+    
