@@ -1,3 +1,170 @@
+questions_list = []
+
+questions_list.append(Question(
+    '¿Para qué sirve crear una clase en Python?',
+    'Para agrupar variables y funciones que trabajan juntas',
+    'Para escribir comentarios más largos',
+    'Para acelerar el programa',
+    'Para evitar usar funciones'
+))
+
+questions_list.append(Question(
+    '¿Cómo se llama la función que se ejecuta al crear un objeto?',
+    '__init__',
+    '__start__',
+    'create()',
+    '__main__'
+))
+
+questions_list.append(Question(
+    '¿Qué representa la clase Question en el programa?',
+    'Una estructura que almacena preguntas y respuestas',
+    'El diseño de la ventana',
+    'Un botón de PyQt',
+    'Un archivo externo'
+))
+
+questions_list.append(Question(
+    '¿Qué hace el método addWidget() en PyQt?',
+    'Inserta un widget dentro de un layout',
+    'Crea una clase nueva',
+    'Cambia el tamaño de una ventana',
+    'Ordena los radio buttons'
+))
+
+questions_list.append(Question(
+    '¿Qué hace shuffle() en la lista de respuestas?',
+    'Mezcla los elementos al azar',
+    'Borra los elementos',
+    'Ordena alfabéticamente',
+    'Convierte valores en cadenas'
+))
+
+questions_list.append(Question(
+    '¿Qué instrucción inicia la interfaz gráfica?',
+    'app.exec()',
+    'QWidget.start()',
+    'begin()',
+    'window.play()'
+))
+
+questions_list.append(Question(
+    '¿Qué hace btn_OK.clicked.connect(click_OK)?',
+    'Asocia el clic del botón con una función',
+    'Cambia el color del botón',
+    'Cierra la aplicación',
+    'Reinicia la ventana'
+))
+
+questions_list.append(Question(
+    '¿Qué tipo de estructura es questions_list?',
+    'Una lista de objetos',
+    'Un diccionario',
+    'Una variable simple',
+    'Una tupla'
+))
+
+questions_list.append(Question(
+    '¿Qué hace window.score += 1?',
+    'Suma 1 al puntaje total',
+    'Reduce la puntuación',
+    'Reinicia la puntuación',
+    'Cierra la ventana'
+))
+
+questions_list.append(Question(
+    '¿Para qué sirve QButtonGroup?',
+    'Para permitir solo una selección en los RadioButton',
+    'Para ordenar los botones',
+    'Para cambiar colores',
+    'Para crear nuevas preguntas'
+))
+
+questions_list.append(Question(
+    '¿Qué hace setText() en PyQt?',
+    'Cambia el texto mostrado',
+    'Crea una nueva ventana',
+    'Borra el contenido',
+    'Ejecuta la aplicación'
+))
+
+questions_list.append(Question(
+    '¿Qué ocurre al ejecutar show_result()?',
+    'Se oculta el panel de preguntas y se muestra el de resultados',
+    'Se mezclan las respuestas',
+    'Se cierran todas las ventanas',
+    'Se reinicia la aplicación'
+))
+
+questions_list.append(Question(
+    '¿Para qué sirve randint en el programa?',
+    'Elegir una pregunta aleatora',
+    'Ordenar la lista',
+    'Limpiar la pantalla',
+    'Guardar un archivo'
+))
+
+questions_list.append(Question(
+    '¿Qué es un widget en PyQt?',
+    'Un elemento visual como botones o etiquetas',
+    'Una variable matemática',
+    'Un error del sistema',
+    'Una imagen PNG'
+))
+
+questions_list.append(Question(
+    '¿Qué hace window.resize(400, 300)?',
+    'Ajusta el tamaño de la ventana',
+    'Crea un nuevo botón',
+    'Cierra la app',
+    'Guarda la configuración'
+))
+
+questions_list.append(Question(
+    '¿Qué significa que un método esté dentro de una clase?',
+    'Que está relacionado con los datos de esa clase',
+    'Que no puede ser llamado',
+    'Que funciona solo en Linux',
+    'Que es más rápido'
+))
+
+questions_list.append(Question(
+    '¿Qué hace hide() en un widget PyQt?',
+    'Oculta el widget',
+    'Muestra el widget',
+    'Duplica el widget',
+    'Borra el widget'
+))
+
+questions_list.append(Question(
+    '¿Por qué se usa setExclusive(True)?',
+    'Para permitir seleccionar solo una opción',
+    'Para agregar colores',
+    'Para permitir múltiples selecciones',
+    'Para reiniciar botones'
+))
+
+questions_list.append(Question(
+    '¿Qué widget muestra el texto de la pregunta?',
+    'lb_Question',
+    'AnsGroupBox',
+    'layout_card',
+    'window.score'
+))
+
+questions_list.append(Question(
+    '¿Qué función se ejecuta al pulsar "Próxima pregunta"?',
+    'next_question()',
+    'check_answer()',
+    'reset()',
+    'ask()'
+))
+
+
+
+
+
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QApplication, QWidget,
