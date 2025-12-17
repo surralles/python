@@ -1,0 +1,101 @@
+3. Texto de programa:
+	users = ['max123', 'happy_girl', 'funnyguy', 'crazy.cat']
+amount_users = len(users)
+users.sort()
+i = 1
+print('Lista de usuarios:')
+for user in users:
+  print(i, '-', user)
+  i += 1
+print('Usuarios totales:', amount_users)
+
+4. Texto de programa:
+games = ['dota 2', 'cs go', 'warface', 'minecraft']
+searching = input('Solicitud:')
+searching = searching.lower()
+if searching in games:
+  print('Solicitud encontrada en deseos')
+else:
+  print('Deseo no existe')
+
+5. Texto de programa:
+	games = list()
+game = input('Ingresar juego (0 - detener ingreso):')
+game = game.lower()
+while game != '0':
+   if game in games:
+       print('El juego ya está registrado')
+   else:
+       games.append(game)
+   game = input('Ingresar juego (0 - detener ingreso):')
+   game = game.lower()
+games.sort()
+print('Lista de juegos:', games)
+
+6. Texto de programa:
+marks = list()
+amount_five = 0
+amount_four = 0
+amount_three = 0
+mark = int(input('Ingresar puntaje (0 - detener ingreso):'))
+while mark != 0:
+  if mark == 5:
+     amount_five += 1
+  if mark == 4:
+     amount_four += 1
+  if mark == 3:
+     amount_three += 1
+  marks.append(mark)
+  mark = int(input('Ingresar puntaje (0 - detener ingreso):'))
+progress = (amount_five + amount_four + amount_three)/len(marks)*100
+print('Lista de marcas:', marks)
+print('Rendimiento:', progress)
+
+Ejercicio extra 1. Texto de programa:
+marks = input('Ingresar marcas separadas por un espacio:')
+marks = marks.split(' ')
+amount_five = 0
+for mark in marks:
+ if mark == 'A':
+     amount_five += 1
+chance = amount_five/len(marks)*100
+print("Aes recibidas (%) -", chance)
+
+Ejercicio extra 2. Texto de programa:
+teacher = list()
+teacher_name = input("Apellido del maestro:")
+teacher_position = input('Posición:')
+students_amount = input('Número de estudiantes en grupos:')
+students_amount = students_amount.split(' ')
+teacher.append(teacher_name)
+teacher.append(teacher_position)
+teacher.append(students_amount)
+print(teacher)
+
+
+2.Texto de programa:
+marks = input('Ingresar marcas separadas por un espacio:')
+marks = marks.split(' ')
+print('Análisis establecido', marks)
+growth = 1 #de manera predeterminada, todos mejoran
+for i in range(len(marks)-1):
+   if marks[i+1] < marks[i]:
+       growth = -1
+if growth == 1:
+   print('¡Rendimiento estable!')
+else:
+   print('Rendimiento no estable')
+
+
+3. Texto de programa:
+from random import randint
+students = input("Ingresar los nombres de los estudiantes separados por un espacio:")
+students = students.split(' ')
+amount = len(students)
+numbers = list()
+for student in students:
+   number = randint(1, amount)
+   numbers.append(number)
+print('Distribución de variantes de prueba')
+for i in range(amount):
+   print(students[i], '-', numbers[i])
