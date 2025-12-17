@@ -1,19 +1,25 @@
-﻿hat_list = [
-    1,
-    2,
-    3,
-    4,
-    5,
-]  # Esta es una lista existente de números ocultos en el sombrero.
+﻿# paso 1:
+Beatles = []
+print("Paso 1:", Beatles)
 
-# Paso 1
-hat_list[2] = int(input("Ingresa un número entero: "))
+# paso 2:
 
-# Paso 2
-del hat_list[-1]
+Beatles.append("John Lennon")
+Beatles.append("Paul McCartney")
+Beatles.append("George Harrison")
+print("Paso 2:", Beatles)
 
-# Paso 3
-print(len(hat_list))
+# paso 3:
+for members in range(2):
+    Beatles.append(input("Nuevo miembro de la banda: "))
+print("Paso 3:", Beatles)
 
+# paso 4:
+del Beatles[-1]
+del Beatles[-1]
+print("Paso 4:", Beatles)
 
-print(hat_list)
+# paso 5:
+Beatles.insert(0, "RingoStarr")
+print("Paso 5:", Beatles)
+print("Los Fav:",len(Beatles))
