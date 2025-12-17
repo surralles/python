@@ -1,389 +1,546 @@
-questions_list = []
-
-questions_list.append(Question(
-    '¿Para qué sirve crear una clase en Python?',
-    'Para agrupar variables y funciones que trabajan juntas',
-    'Para escribir comentarios más largos',
-    'Para acelerar el programa',
-    'Para evitar usar funciones'
-))
-
-questions_list.append(Question(
-    '¿Cómo se llama la función que se ejecuta al crear un objeto?',
-    '__init__',
-    '__start__',
-    'create()',
-    '__main__'
-))
-
-questions_list.append(Question(
-    '¿Qué representa la clase Question en el programa?',
-    'Una estructura que almacena preguntas y respuestas',
-    'El diseño de la ventana',
-    'Un botón de PyQt',
-    'Un archivo externo'
-))
-
-questions_list.append(Question(
-    '¿Qué hace el método addWidget() en PyQt?',
-    'Inserta un widget dentro de un layout',
-    'Crea una clase nueva',
-    'Cambia el tamaño de una ventana',
-    'Ordena los radio buttons'
-))
-
-questions_list.append(Question(
-    '¿Qué hace shuffle() en la lista de respuestas?',
-    'Mezcla los elementos al azar',
-    'Borra los elementos',
-    'Ordena alfabéticamente',
-    'Convierte valores en cadenas'
-))
-
-questions_list.append(Question(
-    '¿Qué instrucción inicia la interfaz gráfica?',
-    'app.exec()',
-    'QWidget.start()',
-    'begin()',
-    'window.play()'
-))
-
-questions_list.append(Question(
-    '¿Qué hace btn_OK.clicked.connect(click_OK)?',
-    'Asocia el clic del botón con una función',
-    'Cambia el color del botón',
-    'Cierra la aplicación',
-    'Reinicia la ventana'
-))
-
-questions_list.append(Question(
-    '¿Qué tipo de estructura es questions_list?',
-    'Una lista de objetos',
-    'Un diccionario',
-    'Una variable simple',
-    'Una tupla'
-))
-
-questions_list.append(Question(
-    '¿Qué hace window.score += 1?',
-    'Suma 1 al puntaje total',
-    'Reduce la puntuación',
-    'Reinicia la puntuación',
-    'Cierra la ventana'
-))
-
-questions_list.append(Question(
-    '¿Para qué sirve QButtonGroup?',
-    'Para permitir solo una selección en los RadioButton',
-    'Para ordenar los botones',
-    'Para cambiar colores',
-    'Para crear nuevas preguntas'
-))
-
-questions_list.append(Question(
-    '¿Qué hace setText() en PyQt?',
-    'Cambia el texto mostrado',
-    'Crea una nueva ventana',
-    'Borra el contenido',
-    'Ejecuta la aplicación'
-))
-
-questions_list.append(Question(
-    '¿Qué ocurre al ejecutar show_result()?',
-    'Se oculta el panel de preguntas y se muestra el de resultados',
-    'Se mezclan las respuestas',
-    'Se cierran todas las ventanas',
-    'Se reinicia la aplicación'
-))
-
-questions_list.append(Question(
-    '¿Para qué sirve randint en el programa?',
-    'Elegir una pregunta aleatora',
-    'Ordenar la lista',
-    'Limpiar la pantalla',
-    'Guardar un archivo'
-))
-
-questions_list.append(Question(
-    '¿Qué es un widget en PyQt?',
-    'Un elemento visual como botones o etiquetas',
-    'Una variable matemática',
-    'Un error del sistema',
-    'Una imagen PNG'
-))
-
-questions_list.append(Question(
-    '¿Qué hace window.resize(400, 300)?',
-    'Ajusta el tamaño de la ventana',
-    'Crea un nuevo botón',
-    'Cierra la app',
-    'Guarda la configuración'
-))
-
-questions_list.append(Question(
-    '¿Qué significa que un método esté dentro de una clase?',
-    'Que está relacionado con los datos de esa clase',
-    'Que no puede ser llamado',
-    'Que funciona solo en Linux',
-    'Que es más rápido'
-))
-
-questions_list.append(Question(
-    '¿Qué hace hide() en un widget PyQt?',
-    'Oculta el widget',
-    'Muestra el widget',
-    'Duplica el widget',
-    'Borra el widget'
-))
-
-questions_list.append(Question(
-    '¿Por qué se usa setExclusive(True)?',
-    'Para permitir seleccionar solo una opción',
-    'Para agregar colores',
-    'Para permitir múltiples selecciones',
-    'Para reiniciar botones'
-))
-
-questions_list.append(Question(
-    '¿Qué widget muestra el texto de la pregunta?',
-    'lb_Question',
-    'AnsGroupBox',
-    'layout_card',
-    'window.score'
-))
-
-questions_list.append(Question(
-    '¿Qué función se ejecuta al pulsar "Próxima pregunta"?',
-    'next_question()',
-    'check_answer()',
-    'reset()',
-    'ask()'
-))
-
-
-
-
-
-
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QApplication, QWidget,
-    QHBoxLayout, QVBoxLayout,
-    QGroupBox, QButtonGroup, QRadioButton,
-    QPushButton, QLabel)
-from random import randint, shuffle
-
-
-
-
-class Question():
-    
-
-    def __init__(self, question, right_answer, wrong1, wrong2, wrong3):
-        self.question = question
-        self.right_answer = right_answer
-        self.wrong1 = wrong1
-        self.wrong2 = wrong2
-        self.wrong3 = wrong3
-
-
-
-
-questions_list = []
-questions_list.append(
-    Question('¿El Idioma oficial de Brasil?', 'Portugués', 'Inglés', 'Español', 'Brasilero'))
-questions_list.append(
-    Question('¿Qué color no aparece en la bandera americana?', 'Verde', 'Rojo', 'Blanco', 'Azul'))
-questions_list.append(
-    Question('¿Casa tradicional del pueblo Yakut?', 'Yurta', 'Urasa', 'Igloo', 'Khata'))
-
-
-app = QApplication([])
-
-
-btn_OK = QPushButton('Reply') 
-lb_Question = QLabel('¡La pregunta más difícil del mundo!')  
-
-
-RadioGroupBox = QGroupBox("Opciones de respuesta")  
-
-rbtn_1 = QRadioButton('Opción 1')
-rbtn_2 = QRadioButton('Opción 2')
-rbtn_3 = QRadioButton('Opción 3')
-rbtn_4 = QRadioButton('Opción 4')
-
-
-RadioGroup = QButtonGroup()  
-RadioGroup.addButton(rbtn_1)
-RadioGroup.addButton(rbtn_2)
-RadioGroup.addButton(rbtn_3)
-RadioGroup.addButton(rbtn_4)
-
-
-layout_ans1 = QHBoxLayout()
-layout_ans2 = QVBoxLayout()  
-layout_ans3 = QVBoxLayout()
-layout_ans2.addWidget(rbtn_1)  
-layout_ans2.addWidget(rbtn_2)
-layout_ans3.addWidget(rbtn_3)  
-layout_ans3.addWidget(rbtn_4)
-
-
-layout_ans1.addLayout(layout_ans2)
-layout_ans1.addLayout(layout_ans3)  
-
-
-RadioGroupBox.setLayout(layout_ans1)  
-
-
-AnsGroupBox = QGroupBox("Resultados de la prueba")
-lb_Result = QLabel('are you right or not?') 
-lb_Correct = QLabel('¡La respuesta estará aquí!')  
-
-
-layout_res = QVBoxLayout()
-layout_res.addWidget(lb_Result, alignment=(Qt.AlignLeft | Qt.AlignTop))
-layout_res.addWidget(lb_Correct, alignment=Qt.AlignHCenter, stretch=2)
-AnsGroupBox.setLayout(layout_res)
-layout_line1 = QHBoxLayout()  
-layout_line2 = QHBoxLayout() 
-layout_line3 = QHBoxLayout()  
-
-
-layout_line1.addWidget(lb_Question, alignment=(Qt.AlignHCenter | Qt.AlignVCenter))
-layout_line2.addWidget(RadioGroupBox)
-layout_line2.addWidget(AnsGroupBox)
-AnsGroupBox.hide()  
-layout_line3.addStretch(1)
-layout_line3.addWidget(btn_OK, stretch=2)  
-
-layout_line3.addStretch(1)
-
-
-layout_card = QVBoxLayout()
-
-
-layout_card.addLayout(layout_line1, stretch=2)
-layout_card.addLayout(layout_line2, stretch=8)
-layout_card.addStretch(1)
-layout_card.addLayout(layout_line3, stretch=1)
-layout_card.addStretch(1)
-layout_card.setSpacing(5)  
-
-
-
-def show_result():
-    ''' mostrar el panel de opiniones '''
-    RadioGroupBox.hide()
-    AnsGroupBox.show()
-    btn_OK.setText('Próxima pregunta')
-
-
-
-
-def show_question():
-    ''' mostrar panel de pregunta '''
-    RadioGroupBox.show()
-    AnsGroupBox.hide()
-    btn_OK.setText('Respuesta')
-    RadioGroup.setExclusive(False)   
-    rbtn_1.setChecked(False)
-    rbtn_2.setChecked(False)
-    rbtn_3.setChecked(False)
-    rbtn_4.setChecked(False)
-    RadioGroup.setExclusive(True)  
-
-
-
-
-answers = [rbtn_1, rbtn_2, rbtn_3, rbtn_4]
-
-
-
-
-def ask(q: Question):
-    
-    shuffle(answers)  
-    answers[0].setText(
-        q.right_answer) 
-    answers[1].setText(q.wrong1)
-    answers[2].setText(q.wrong2)
-    answers[3].setText(q.wrong3)
-    lb_Question.setText(q.question)  
-    lb_Correct.setText(q.right_answer)  
-    show_question()  
-
-
-
-
-def show_correct(res):
-    " mostrar el resultado - establecer el texto pasado a la inscripción resultado y mostrar el panel que necesitamos "
-    lb_Result.setText(res)
-    show_result()
-
-
-
-
-def check_answer():
-    'si se elige cualquier opción de respuesta, tenemos que comprobar y mostrar el panel de respuesta'
-
-
-    if answers[0].isChecked():
-        
-        show_correct('¡Correcto!')
-        window.score += 1
-        print('Estadísticas\n-Preguntas totales: ', window.total, '\n-Preguntas correrctas: ', window.score)
-        print('CaIificación: ', (window.score / window.total * 100), '%')
-    else:
-        if answers[1].isChecked() or answers[2].isChecked() or answers[3].isChecked():
-            
-            show_correct('¡Respuesta incorrecta!')
-            print('CaIificación: ', (window.score / window.total * 100), '%')
-
-
-
-
-def next_question():
-    'hace una pregunta aleatoria desde la lista'
-
-
-    window.total += 1
-    print('Estadísticas\n-Preguntas totales: ', window.total, '\n-Preguntas correrctas: ', window.score)
-    cur_question = randint(0, len(questions_list) - 1)  
-    
-    q = questions_list[cur_question]  
-    ask(q)  
-    
-
-
-
-
-
-def click_OK():
-    'determina si se muestra otra pregunta o se comprueba la respuesta a ésta.'
-
-
-    if btn_OK.text() == 'Respuesta':
-        check_answer()  
-    else:
-        next_question()  
-
-
-
-
-window = QWidget()
-window.setLayout(layout_card)
-window.setWindowTitle('Tarjeta de memoria')
-
-
-btn_OK.clicked.connect(click_OK)  
-
-
-window.score = 0
-window.total = 0
-next_question()
-window.resize(400, 300)
-window.show()
-app.exec()
-
-
+Test Examen de Python Basics I
+1. ¿Qué hace el siguiente código? for i in range(3): print(i)
+•
+a) 0 1 2
+•
+b) 1 2 3
+•
+c) 0 1 2 3
+•
+d) 3 2 1
+2. ¿Qué hace el código range(5)?
+•
+a) Imprime números del 1 al 5
+•
+b) Crea una lista con el número 5
+•
+c) Crea números del 0 al 4
+•
+d) Repite cinco veces el número 5
+3. ¿Qué imprime este código? x = 3 if x == 5: print("Es cinco") else: print("No es cinco")
+•
+a) Es cinco
+•
+b) No es cinco
+•
+c) Error
+•
+d) Nada
+4. ¿Qué operador usamos para comparar si un valor es diferente de otro?
+•
+a) =
+•
+b) ==
+•
+c) !=
+•
+d) <=
+5. ¿Qué muestra el siguiente código? print("Hola, mundo!")
+•
+a) Hola, mundo!
+•
+b) "Hola, mundo!"
+•
+c) print("Hola, mundo!")
+•
+d) Nada
+6. ¿Qué hace la función input()?
+•
+a) Muestra un mensaje
+•
+b) Calcula números
+•
+c) Pide información al usuario
+•
+d) Dibuja una figura
+7. ¿Cuál de estos símbolos se usa para sumar en Python?
+•
+a) -
+•
+b) +
+•
+c) *
+•
+d) /
+8. ¿Qué hace la función print() en Python?
+•
+a) Guarda información
+•
+b) Muestra información en la pantalla
+•
+c) Borra datos
+•
+d) Cierra el programa
+9. ¿Cómo se define una función en Python?
+•
+a) function mi_funcion():
+•
+b) def mi_funcion():
+•
+c) create mi_funcion():
+•
+d) make mi_funcion():
+10. ¿Qué hace la función len() en Python?
+•
+a) Suma dos números
+•
+b) Devuelve la longitud de una lista o cadena
+•
+c) Convierte texto a minúsculas
+•
+d) Genera un número aleatorio
+11. ¿Qué hace el siguiente código? for i in range(4): forward(100) right(90)
+•
+a) Dibuja un triángulo
+•
+b) Dibuja un círculo
+•
+c) Dibuja un cuadrado
+•
+d) Dibuja una línea recta
+12. ¿Qué hace el comando forward(100) en Turtle?
+•
+a) Borra la pantalla
+•
+b) Mueve la tortuga hacia atrás
+•
+c) Mueve la tortuga hacia adelante 100 pasos
+•
+d) Cambia el color de la tortuga
+13. ¿Qué comando se usa para comenzar a llenar una figura con color?
+•
+a) start_fill()
+•
+b) begin_fill()
+•
+c) fill_start()
+•
+d) color_fill()
+14. ¿Qué es la herencia en Python?
+•
+a) Copiar código
+•
+b) Crear una clase a partir de otra
+•
+c) Borrar una clase
+•
+d) Cambiar el nombre de una clase
+15. ¿Qué palabra clave se utiliza para referirse al objeto actual dentro de una clase?
+•
+a) this
+•
+b) self
+•
+c) me
+•
+d) object
+16. ¿Qué hace el método onkey() en Turtle?
+•
+a) Dibuja una tecla
+•
+b) Detecta cuando se presiona una tecla
+•
+c) Borra la pantalla
+•
+d) Cambia el color
+17. ¿Qué hace display.update()?
+•
+a) Actualiza la pantalla con los nuevos dibujos
+•
+b) Borra la pantalla
+•
+c) Crea un nuevo juego
+•
+d) Cambia el color del fondo
+18. ¿Qué hace append() en una lista?
+•
+a) Elimina un elemento
+•
+b) Ordena la lista
+•
+c) Agrega un elemento al final
+•
+d) Busca un elemento
+19. ¿Para qué sirve PyGame?
+•
+a) Dibujar en papel
+•
+b) Crear videojuegos en Python
+•
+c) Hacer cálculos matemáticos
+•
+d) Escribir cuentos
+20. ¿Qué hace la función random.randint(1, 10)?
+•
+a) Devuelve siempre 5
+•
+b) Genera un número aleatorio entre 1 y 10
+•
+c) Ordena números del 1 al 10
+•
+d) Convierte 1 y 10 en texto
+
+
+
+Test 2 - Python Basics I
+1. ¿Qué es una variable en programación?
+•
+a) Un número fijo
+•
+b) Una caja para guardar datos
+•
+c) Un objeto de la cocina
+•
+d) Una palabra en otro idioma
+2. ¿Qué hace la función input()?
+•
+a) Muestra un mensaje
+•
+b) Calcula números
+•
+c) Pide información al usuario
+•
+d) Dibuja una figura
+3. ¿Qué palabra usamos para tomar decisiones en Python?
+•
+a) for
+•
+b) if
+•
+c) print
+•
+d) input
+4. ¿Qué operador usamos para comparar si dos valores son iguales?
+•
+a) =
+•
+b) ==
+•
+c) !=
+•
+d) >=
+5. ¿Qué imprime este código? x = 10 if x > 5: if x < 15: print("Entre 5 y 15")
+•
+a) Entre 5 y 15
+•
+b) Mayor que 15
+•
+c) Menor que 5
+•
+d) Nada
+6. ¿Qué es un bucle en programación?
+•
+a) Una decisión
+•
+b) Una repetición
+•
+c) Una variable
+•
+d) Una función
+7. ¿Qué palabra usamos para recorrer una lista o rango de números?
+•
+a) for
+•
+b) while
+•
+c) if
+•
+d) else
+8. ¿Qué hace el código range(5)?
+•
+a) Imprime números del 1 al 5
+•
+b) Crea una lista con el número 5
+•
+c) Crea números del 0 al 4
+•
+d) Repite cinco veces el número 5
+9. ¿Cómo se define una función en Python?
+•
+a) function mi_funcion():
+•
+b) def mi_funcion():
+•
+c) create mi_funcion():
+•
+d) make mi_funcion():
+10. ¿Qué hace return en una función?
+•
+a) Guarda datos
+•
+b) Devuelve un valor
+•
+c) Imprime en pantalla
+•
+d) Repite la función
+11. ¿Qué hace la función random.randint(1, 10)?
+•
+a) Devuelve siempre 5
+•
+b) Genera un número aleatorio entre 1 y 10
+•
+c) Ordena números del 1 al 10
+•
+d) Convierte 1 y 10 en texto
+12. ¿Qué hace el comando forward(100) en Turtle?
+•
+a) Borra la pantalla
+•
+b) Mueve la tortuga hacia atrás
+•
+c) Mueve la tortuga hacia adelante 100 pasos
+•
+d) Cambia el color de la tortuga
+13. ¿Qué hace este código? for i in range(5): forward(100) right(144)
+•
+a) Dibuja un pentágono
+•
+b) Dibuja una estrella
+•
+c) Dibuja un cuadrado
+•
+d) Dibuja un triángulo
+14. ¿Qué comando se usa para cerrar la ventana de dibujo al hacer clic?
+•
+a) exitonclick()
+•
+b) closewindow()
+•
+c) stop()
+•
+d) end()
+15. ¿Qué es una clase en Python?
+•
+a) Una función especial
+•
+b) Un tipo de bucle
+•
+c) Una plantilla para crear objetos
+•
+d) Una variable mágica
+16. ¿Qué palabra clave se utiliza para referirse al objeto actual dentro de una clase?
+•
+a) this
+•
+b) self
+•
+c) me
+•
+d) object
+17. ¿Qué es append() en una lista?
+•
+a) Elimina un elemento
+•
+b) Ordena la lista
+•
+c) Agrega un elemento al final
+•
+d) Busca un elemento
+18. ¿Qué hace el módulo time en Python?
+•
+a) Calcula sumas
+•
+b) Mide el tiempo y crea pausas
+•
+c) Genera números aleatorios
+•
+d) Convierte texto a números
+19. ¿Qué hace event.get() en PyGame?
+•
+a) Cierra el juego
+•
+b) Obtiene los eventos del teclado y ratón
+•
+c) Cambia el color de fondo
+•
+d) Reproduce música
+20. ¿Qué se necesita para que el juego funcione correctamente en PyGame?
+•
+a) Solo una imagen
+•
+b) Una palabra de fondo
+•
+c) Un bucle principal que actualice la pantalla y maneje eventos
+•
+d) Un dibujo en papel
+Test de Python – Python Basics I
+1. ¿Qué hace append() en una lista?
+•
+a) Elimina un elemento
+•
+b) Ordena la lista
+•
+c) Agrega un elemento al final
+•
+d) Busca un elemento
+2. ¿Qué hace el código range(5)?
+•
+a) Imprime números del 1 al 5
+•
+b) Crea una lista con el número 5
+•
+c) Crea números del 0 al 4
+•
+d) Repite cinco veces el número 5
+3. ¿Qué operador usamos para comparar si un valor es diferente de otro?
+•
+a) =
+•
+b) ==
+•
+c) !=
+•
+d) <=
+4. ¿Qué hace el método onkey() en Turtle?
+•
+a) Dibuja una tecla
+•
+b) Detecta cuando se presiona una tecla
+•
+c) Borra la pantalla
+•
+d) Cambia el color
+5. ¿Qué tipo de dato es 3.14 en Python?
+•
+a) Cadena
+•
+b) Booleano
+•
+c) Entero
+•
+d) Flotante
+6. ¿Qué es una clase en Python?
+•
+a) Una función especial
+•
+b) Un tipo de bucle
+•
+c) Una plantilla para crear objetos
+•
+d) Una variable mágica
+7. ¿Qué hace la función print() en Python?
+•
+a) Guarda información
+•
+b) Muestra información en la pantalla
+•
+c) Borra datos
+•
+d) Cierra el programa
+8. ¿Qué hace la función input()?
+•
+a) Muestra un mensaje
+•
+b) Calcula números
+•
+c) Pide información al usuario
+•
+d) Dibuja una figura
+9. ¿Qué operador se usa para multiplicar en Python?
+•
+a) x
+•
+b) *
+•
+c) %
+•
+d) /
+10. ¿Qué hace el comando forward(100) en Turtle?
+•
+a) Borra la pantalla
+•
+b) Mueve la tortuga hacia atrás
+•
+c) Mueve la tortuga hacia adelante 100 pasos
+•
+d) Cambia el color de la tortuga
+11. ¿Qué hace el método find() en una cadena?
+•
+a) Busca una letra o palabra en el texto
+•
+b) Elimina una letra
+•
+c) Agrega texto
+•
+d) Cambia el texto a números
+12. ¿Qué hace la función random.randint(1, 10)?
+•
+a) Devuelve siempre 5
+•
+b) Genera un número aleatorio entre 1 y 10
+•
+c) Ordena números del 1 al 10
+•
+d) Convierte 1 y 10 en texto
+13. ¿Qué es un bucle en programación?
+•
+a) Una decisión
+•
+b) Una repetición
+•
+c) Una variable
+•
+d) Una función
+14. ¿Qué hace el siguiente código? for i in range(4): forward(100) right(90)
+•
+a) Dibuja un triángulo
+•
+b) Dibuja un círculo
+•
+c) Dibuja un cuadrado
+•
+d) Dibuja una línea recta
+15. ¿Qué palabra usamos para tomar decisiones en Python?
+•
+a) for
+•
+b) if
+•
+c) print
+•
+d) input
+16. ¿Qué imprime este código? x = 3 if x == 5: print("Es cinco") else: print("No es cinco")
+•
+a) Es cinco
+•
+b) No es cinco
+•
+c) Error
+•
+d) Nada
+17. ¿Qué es una función en Python?
+•
+a) Un dibujo
+•
+b) Un tipo de variable
+•
+c) Un bloque de código que realiza una tarea
+•
+d) Una lista de números
+18. ¿Qué es Python?
+•
+a) Un tipo de serpiente
+•
+b) Un juego de mesa
+•
+c) Un lenguaje de programación
+•
+d) Un lenguaje que no existe
+19. ¿Qué comando se usa para mover la tortuga sin dibujar?
+•
+a) penup()
+•
+b) pendown()
+•
+c) move()
+•
+d) jump()
+20. ¿Para qué sirve PyGame?
+•
+a) Dibujar en papel
+•
+b) Crear videojuegos en Python
+•
+c) Hacer cálculos matemáticos
+•
+d) Escribir cuentos
