@@ -1,0 +1,23 @@
+local poop = game.Workspace:WaitForChild("Poop")
+poop.Parent = game.ServerStorage
+
+local npc = game.Workspace.Tronco
+local head = npc:WaitForChild("Head")
+local quest_npc_dialog = npc.Head.Dialog
+
+function StartDialogue(player, choice)
+
+	if (choice == quest_npc_dialog.DialogChoice1) then
+      print("Dialogue 1 running")
+		
+	elseif (choice == quest_npc_dialog.DialogChoice1.DialogChoice2) then
+		print("Dialogue 2 running")
+		game.ServerStorage.Poop.Parent = game.Workspace
+    print("Take the crystal")
+	
+  end
+
+end
+
+
+quest_npc_dialog.DialogChoiceSelected:Connect(StartDialogue)
