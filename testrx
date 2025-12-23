@@ -92,6 +92,24 @@ StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
 warn("🔧 PlayerList forzado a ACTIVADO")
 
 
+local StarterGui = game:GetService("StarterGui")
+
+-- Esperar a que CoreGui esté listo
+repeat
+	task.wait()
+until pcall(function()
+	return StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.PlayerList)
+end)
+
+-- Forzar activación
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+
+warn("🔧 PlayerList forzado a ACTIVADO")
+
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+warn("🧨 TODOS los CoreGui forzados a visible")
+
+
 
 
 
