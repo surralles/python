@@ -65,6 +65,30 @@ game.Players.PlayerAdded:Connect(whenLoaded)
 
 
 
+local StarterGui = game:GetService("StarterGui")
+
+local function checkPlayerList()
+	local ok, result = pcall(function()
+		StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.PlayerList)
+	end)
+
+	if ok then
+		if result then
+			warn("✅ PlayerList ACTIVADO (debería verse el leaderboard)")
+		else
+			warn("❌ PlayerList DESACTIVADO (leaderboard oculto)")
+		end
+	else
+		warn("⚠️ No se puede comprobar el PlayerList (CoreGui aún no listo)")
+	end
+end
+
+-- Esperar un poco a que cargue la UI
+task.wait(2)
+checkPlayerList()
+
+
+
 
 
 
