@@ -88,6 +88,10 @@ task.wait(2)
 checkPlayerList()
 
 
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+warn("🔧 PlayerList forzado a ACTIVADO")
+
+
 
 
 
