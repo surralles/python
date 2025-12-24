@@ -1,0 +1,108 @@
+function whenLoaded(player)
+	warn("Jugador", player, "Conectado al juego")
+	script.Parent.Player.Value = player
+	print(script.Parent.Player.Value)
+end
+game.Players.PlayerAdded:Connect(whenLoaded)
+
+
+script.Parent.Touched:Connect(function(hit)
+	if hit and hit.Parent:FindFirstChild("Humanoid") then
+		local money = game.Players[hit.Parent.Name].leaderstats.Coins
+		money.Value += 1
+		script.Parent:Destroy()
+	end
+end)
+
+
+
+local coin_time = 2
+while true do
+	coin_time = math.random(1,2)
+	wait(coin_time)
+	local part = Instance.new("Part")
+	part.Name = "coin"
+	part.Shape = "CornerWedge"
+	part.Material = "Metal"
+	part.Color = Color3.new(0.760784, 0.811765, 0.772549)
+	part.Size = Vector3.new(0.2, 2, 2)
+	part.Position = script.Parent.Position + Vector3.new(math.random(-2, 2), 2, math.random(-2, 2))
+	part.Anchored = true
+	part.CanCollide = false
+	part.Parent = game.Workspace.CoinSpawner
+	local s = script.Parent.CoinCollectScript
+	s.Disabled = false
+	s:Clone().Parent = part
+	s.Disabled = true
+
+end
+
+
+
+
+local Players = game:GetService("Players")
+local frame = script.Parent.Frame
+
+local function clearRows()
+	for _, child in ipairs(frame:GetChildren()) do
+		if child:IsA("Frame") and child.Name == "Row" then
+			child:Destroy()
+		end
+	end
+end
+
+local function createRow(plr)
+	local row = Instance.new("Frame")
+	row.Name = "Row"
+	row.Size = UDim2.new(1,0,0,30)
+	row.BackgroundTransparency = 1
+	row.Parent = frame
+
+	local nameLabel = Instance.new("TextLabel")
+	nameLabel.Size = UDim2.new(0.5,0,1,0)
+	nameLabel.BackgroundTransparency = 1
+	nameLabel.TextScaled = true
+	nameLabel.Text = plr.Name
+	nameLabel.Parent = row
+	nameLabel.TextScaled = true
+
+	local coinsLabel = Instance.new("TextLabel")
+	coinsLabel.Size = UDim2.new(0.25,0,1,0)
+	coinsLabel.Position = UDim2.new(0.5,0,0,0)
+	coinsLabel.BackgroundTransparency = 1
+	coinsLabel.TextScaled = true
+	coinsLabel.Parent = row
+	coinsLabel.TextScaled = true
+
+	local expLabel = Instance.new("TextLabel")
+	expLabel.Size = UDim2.new(0.25,0,1,0)
+	expLabel.Position = UDim2.new(0.75,0,0,0)
+	expLabel.BackgroundTransparency = 1
+	expLabel.TextScaled = true
+	expLabel.Parent = row
+	expLabel.TextScaled = true
+
+	local function update()
+		local stats = plr:FindFirstChild("leaderstats")
+		if stats then
+			coinsLabel.Text = stats.Coins.Value
+			expLabel.Text = stats.Exp.Value
+		end
+	end
+
+	plr.leaderstats.Coins.Changed:Connect(update)
+	plr.leaderstats.Exp.Changed:Connect(update)
+	update()
+end
+
+local function updateLeaderboard()
+	clearRows()
+	for _, plr in ipairs(Players:GetPlayers()) do
+		createRow(plr)
+	end
+end
+
+Players.PlayerAdded:Connect(updateLeaderboard)
+Players.PlayerRemoving:Connect(updateLeaderboard)
+
+updateLeaderboard()
