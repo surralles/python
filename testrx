@@ -1,117 +1,33 @@
-local poop = game.Workspace:WaitForChild("Poop")
-poop.Parent = game.ServerStorage
-
-local npc = game.Workspace.Tronco
-local head = npc:WaitForChild("Head")
-local quest_npc_dialog = npc.Head.Dialog
-
-function StartDialogue(player, choice)
-
-	if (choice == quest_npc_dialog.DialogChoice1) then
-      print("Dialogue 1 running")
-		
-	elseif (choice == quest_npc_dialog.DialogChoice1.DialogChoice2) then
-		print("Dialogue 2 running")
-		game.ServerStorage.Poop.Parent = game.Workspace
-    print("Take the crystal")
-	
-  end
-
-end
-
-quest_npc_dialog.DialogChoiceSelected:Connect(StartDialogue)
+def print_football():
+    print('Tiempo de juego: dos mitades de 45 minutos cada una')
+    print('Número de jugadores: 11 por equipo')
+    print('El objetivo del juego es anotar tantos goles como sea posible')
 
 
+def print_hockey():
+    print('Tiempo de juego: tres períodos de 20 minutos cada uno')
+    print('Número de jugadores: 6 por equipo')
+    print('El objetivo del juego es anotar tantos goles como sea posible')
 
 
-local StartPoint = script.Parent.Caca
-local EndPoint = script.Parent.Final
-function TouchedFunc(touched)
-	if touched.Parent:FindFirstChild("Humanoid") then
-		local human = touched.Parent.HumanoidRootPart
-		human.Position = EndPoint.Position +Vector3.new(0, 10, 0)
-	end
-end
-StartPoint.Touched:Connect(TouchedFunc)
+def print_sprint():
+    print('Tiempo de carrera: ilimitado')
+    print('El objetivo es alcanzar la línea de meta lo más rápido posible')
+    print('Datos interesantes:')
+    print('-La disciplina atlética más antigua desde los primeros Juegos Olímpicos')
+    print('-El récord absoluto (9.63 segundos) fue establecido en el 2012 por Usain Bolt')
 
 
-
-
-local Players = game:GetService("Players")
-local function leaderboardSetup(player)
-	game.Workspace.Data.Player.Value = player
-	local char = game.Workspace:WaitForChild(player.Name)
-	local leaderstats = Instance.new("Folder")
-	leaderstats.Name = "leaderstats"
-	leaderstats.Parent = player
-	local gold = Instance.new("IntValue")
-	gold.Name = "Coins"
-	gold.Value = 0
-	gold.Parent = leaderstats
-	local exp = Instance.new("IntValue")
-	exp.Name = "Exp"
-	exp.Value = 0
-	exp.Parent = leaderstats
-end
-Players.PlayerAdded:Connect(leaderboardSetup)
-
-
-function whenLoaded(player)
-	warn("Jugador", player, "Conectado al juego")
-	script.Parent.Player.Value = player
-	print(script.Parent.Player.Value)
-end
-game.Players.PlayerAdded:Connect(whenLoaded)
-
-
-
-local StarterGui = game:GetService("StarterGui")
-
-local function checkPlayerList()
-	local ok, result = pcall(function()
-		StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.PlayerList)
-	end)
-
-	if ok then
-		if result then
-			warn("✅ PlayerList ACTIVADO (debería verse el leaderboard)")
-		else
-			warn("❌ PlayerList DESACTIVADO (leaderboard oculto)")
-		end
-	else
-		warn("⚠️ No se puede comprobar el PlayerList (CoreGui aún no listo)")
-	end
-end
-
--- Esperar un poco a que cargue la UI
-task.wait(2)
-checkPlayerList()
-
-
-StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
-warn("🔧 PlayerList forzado a ACTIVADO")
-
-
-local StarterGui = game:GetService("StarterGui")
-
--- Esperar a que CoreGui esté listo
-repeat
-	task.wait()
-until pcall(function()
-	return StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.PlayerList)
-end)
-
--- Forzar activación
-StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
-
-warn("🔧 PlayerList forzado a ACTIVADO")
-
-StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
-warn("🧨 TODOS los CoreGui forzados a visible")
-
-
-
-
-
-
-
+import sport_rules
+print('En el programa de hoy:\n1-fútbol\n2-hockey\n3-carrera de 100 m')
+answer = input('Tu elección (off - salida):')
+while answer != 'off':
+   if answer == '1':
+       sport_rules.print_football()
+   elif answer == '2':
+       sport_rules.print_hockey()
+   elif answer == '3':
+       sport_rules.print_sprint()
+   else:
+       print('¡Deporte no encontrado!')
+   answer = input('Tu elección (off - salida):')
