@@ -1,546 +1,73 @@
-Test Examen de Python Basics I
-1. ¿Qué hace el siguiente código? for i in range(3): print(i)
-•
-a) 0 1 2
-•
-b) 1 2 3
-•
-c) 0 1 2 3
-•
-d) 3 2 1
-2. ¿Qué hace el código range(5)?
-•
-a) Imprime números del 1 al 5
-•
-b) Crea una lista con el número 5
-•
-c) Crea números del 0 al 4
-•
-d) Repite cinco veces el número 5
-3. ¿Qué imprime este código? x = 3 if x == 5: print("Es cinco") else: print("No es cinco")
-•
-a) Es cinco
-•
-b) No es cinco
-•
-c) Error
-•
-d) Nada
-4. ¿Qué operador usamos para comparar si un valor es diferente de otro?
-•
-a) =
-•
-b) ==
-•
-c) !=
-•
-d) <=
-5. ¿Qué muestra el siguiente código? print("Hola, mundo!")
-•
-a) Hola, mundo!
-•
-b) "Hola, mundo!"
-•
-c) print("Hola, mundo!")
-•
-d) Nada
-6. ¿Qué hace la función input()?
-•
-a) Muestra un mensaje
-•
-b) Calcula números
-•
-c) Pide información al usuario
-•
-d) Dibuja una figura
-7. ¿Cuál de estos símbolos se usa para sumar en Python?
-•
-a) -
-•
-b) +
-•
-c) *
-•
-d) /
-8. ¿Qué hace la función print() en Python?
-•
-a) Guarda información
-•
-b) Muestra información en la pantalla
-•
-c) Borra datos
-•
-d) Cierra el programa
-9. ¿Cómo se define una función en Python?
-•
-a) function mi_funcion():
-•
-b) def mi_funcion():
-•
-c) create mi_funcion():
-•
-d) make mi_funcion():
-10. ¿Qué hace la función len() en Python?
-•
-a) Suma dos números
-•
-b) Devuelve la longitud de una lista o cadena
-•
-c) Convierte texto a minúsculas
-•
-d) Genera un número aleatorio
-11. ¿Qué hace el siguiente código? for i in range(4): forward(100) right(90)
-•
-a) Dibuja un triángulo
-•
-b) Dibuja un círculo
-•
-c) Dibuja un cuadrado
-•
-d) Dibuja una línea recta
-12. ¿Qué hace el comando forward(100) en Turtle?
-•
-a) Borra la pantalla
-•
-b) Mueve la tortuga hacia atrás
-•
-c) Mueve la tortuga hacia adelante 100 pasos
-•
-d) Cambia el color de la tortuga
-13. ¿Qué comando se usa para comenzar a llenar una figura con color?
-•
-a) start_fill()
-•
-b) begin_fill()
-•
-c) fill_start()
-•
-d) color_fill()
-14. ¿Qué es la herencia en Python?
-•
-a) Copiar código
-•
-b) Crear una clase a partir de otra
-•
-c) Borrar una clase
-•
-d) Cambiar el nombre de una clase
-15. ¿Qué palabra clave se utiliza para referirse al objeto actual dentro de una clase?
-•
-a) this
-•
-b) self
-•
-c) me
-•
-d) object
-16. ¿Qué hace el método onkey() en Turtle?
-•
-a) Dibuja una tecla
-•
-b) Detecta cuando se presiona una tecla
-•
-c) Borra la pantalla
-•
-d) Cambia el color
-17. ¿Qué hace display.update()?
-•
-a) Actualiza la pantalla con los nuevos dibujos
-•
-b) Borra la pantalla
-•
-c) Crea un nuevo juego
-•
-d) Cambia el color del fondo
-18. ¿Qué hace append() en una lista?
-•
-a) Elimina un elemento
-•
-b) Ordena la lista
-•
-c) Agrega un elemento al final
-•
-d) Busca un elemento
-19. ¿Para qué sirve PyGame?
-•
-a) Dibujar en papel
-•
-b) Crear videojuegos en Python
-•
-c) Hacer cálculos matemáticos
-•
-d) Escribir cuentos
-20. ¿Qué hace la función random.randint(1, 10)?
-•
-a) Devuelve siempre 5
-•
-b) Genera un número aleatorio entre 1 y 10
-•
-c) Ordena números del 1 al 10
-•
-d) Convierte 1 y 10 en texto
+DCCIONARIOS
+
+REEMPLAZAR
+dictionary = {"gato" : "perro", "dog" : "chien", "caballo" : "cheval"}
+dictionary['gato'] = 'minou'
+print(dictionary)
+
+AGREGAR
+dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
+dictionary['cisne'] = 'cygne'
+print(dictionary)
+---------------------
+dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
+dictionary.update({"pato": "canard"})
+print(dictionary)
+
+ELIMINAR
+dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
+del dictionary['perro']
+print(dictionary)
+ELIMINAR ULTIMO LISTA
+dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
+del dictionary['perro']
+print(dictionary)
 
 
 
-Test 2 - Python Basics I
-1. ¿Qué es una variable en programación?
-•
-a) Un número fijo
-•
-b) Una caja para guardar datos
-•
-c) Un objeto de la cocina
-•
-d) Una palabra en otro idioma
-2. ¿Qué hace la función input()?
-•
-a) Muestra un mensaje
-•
-b) Calcula números
-•
-c) Pide información al usuario
-•
-d) Dibuja una figura
-3. ¿Qué palabra usamos para tomar decisiones en Python?
-•
-a) for
-•
-b) if
-•
-c) print
-•
-d) input
-4. ¿Qué operador usamos para comparar si dos valores son iguales?
-•
-a) =
-•
-b) ==
-•
-c) !=
-•
-d) >=
-5. ¿Qué imprime este código? x = 10 if x > 5: if x < 15: print("Entre 5 y 15")
-•
-a) Entre 5 y 15
-•
-b) Mayor que 15
-•
-c) Menor que 5
-•
-d) Nada
-6. ¿Qué es un bucle en programación?
-•
-a) Una decisión
-•
-b) Una repetición
-•
-c) Una variable
-•
-d) Una función
-7. ¿Qué palabra usamos para recorrer una lista o rango de números?
-•
-a) for
-•
-b) while
-•
-c) if
-•
-d) else
-8. ¿Qué hace el código range(5)?
-•
-a) Imprime números del 1 al 5
-•
-b) Crea una lista con el número 5
-•
-c) Crea números del 0 al 4
-•
-d) Repite cinco veces el número 5
-9. ¿Cómo se define una función en Python?
-•
-a) function mi_funcion():
-•
-b) def mi_funcion():
-•
-c) create mi_funcion():
-•
-d) make mi_funcion():
-10. ¿Qué hace return en una función?
-•
-a) Guarda datos
-•
-b) Devuelve un valor
-•
-c) Imprime en pantalla
-•
-d) Repite la función
-11. ¿Qué hace la función random.randint(1, 10)?
-•
-a) Devuelve siempre 5
-•
-b) Genera un número aleatorio entre 1 y 10
-•
-c) Ordena números del 1 al 10
-•
-d) Convierte 1 y 10 en texto
-12. ¿Qué hace el comando forward(100) en Turtle?
-•
-a) Borra la pantalla
-•
-b) Mueve la tortuga hacia atrás
-•
-c) Mueve la tortuga hacia adelante 100 pasos
-•
-d) Cambia el color de la tortuga
-13. ¿Qué hace este código? for i in range(5): forward(100) right(144)
-•
-a) Dibuja un pentágono
-•
-b) Dibuja una estrella
-•
-c) Dibuja un cuadrado
-•
-d) Dibuja un triángulo
-14. ¿Qué comando se usa para cerrar la ventana de dibujo al hacer clic?
-•
-a) exitonclick()
-•
-b) closewindow()
-•
-c) stop()
-•
-d) end()
-15. ¿Qué es una clase en Python?
-•
-a) Una función especial
-•
-b) Un tipo de bucle
-•
-c) Una plantilla para crear objetos
-•
-d) Una variable mágica
-16. ¿Qué palabra clave se utiliza para referirse al objeto actual dentro de una clase?
-•
-a) this
-•
-b) self
-•
-c) me
-•
-d) object
-17. ¿Qué es append() en una lista?
-•
-a) Elimina un elemento
-•
-b) Ordena la lista
-•
-c) Agrega un elemento al final
-•
-d) Busca un elemento
-18. ¿Qué hace el módulo time en Python?
-•
-a) Calcula sumas
-•
-b) Mide el tiempo y crea pausas
-•
-c) Genera números aleatorios
-•
-d) Convierte texto a números
-19. ¿Qué hace event.get() en PyGame?
-•
-a) Cierra el juego
-•
-b) Obtiene los eventos del teclado y ratón
-•
-c) Cambia el color de fondo
-•
-d) Reproduce música
-20. ¿Qué se necesita para que el juego funcione correctamente en PyGame?
-•
-a) Solo una imagen
-•
-b) Una palabra de fondo
-•
-c) Un bucle principal que actualice la pantalla y maneje eventos
-•
-d) Un dibujo en papel
-Test de Python – Python Basics I
-1. ¿Qué hace append() en una lista?
-•
-a) Elimina un elemento
-•
-b) Ordena la lista
-•
-c) Agrega un elemento al final
-•
-d) Busca un elemento
-2. ¿Qué hace el código range(5)?
-•
-a) Imprime números del 1 al 5
-•
-b) Crea una lista con el número 5
-•
-c) Crea números del 0 al 4
-•
-d) Repite cinco veces el número 5
-3. ¿Qué operador usamos para comparar si un valor es diferente de otro?
-•
-a) =
-•
-b) ==
-•
-c) !=
-•
-d) <=
-4. ¿Qué hace el método onkey() en Turtle?
-•
-a) Dibuja una tecla
-•
-b) Detecta cuando se presiona una tecla
-•
-c) Borra la pantalla
-•
-d) Cambia el color
-5. ¿Qué tipo de dato es 3.14 en Python?
-•
-a) Cadena
-•
-b) Booleano
-•
-c) Entero
-•
-d) Flotante
-6. ¿Qué es una clase en Python?
-•
-a) Una función especial
-•
-b) Un tipo de bucle
-•
-c) Una plantilla para crear objetos
-•
-d) Una variable mágica
-7. ¿Qué hace la función print() en Python?
-•
-a) Guarda información
-•
-b) Muestra información en la pantalla
-•
-c) Borra datos
-•
-d) Cierra el programa
-8. ¿Qué hace la función input()?
-•
-a) Muestra un mensaje
-•
-b) Calcula números
-•
-c) Pide información al usuario
-•
-d) Dibuja una figura
-9. ¿Qué operador se usa para multiplicar en Python?
-•
-a) x
-•
-b) *
-•
-c) %
-•
-d) /
-10. ¿Qué hace el comando forward(100) en Turtle?
-•
-a) Borra la pantalla
-•
-b) Mueve la tortuga hacia atrás
-•
-c) Mueve la tortuga hacia adelante 100 pasos
-•
-d) Cambia el color de la tortuga
-11. ¿Qué hace el método find() en una cadena?
-•
-a) Busca una letra o palabra en el texto
-•
-b) Elimina una letra
-•
-c) Agrega texto
-•
-d) Cambia el texto a números
-12. ¿Qué hace la función random.randint(1, 10)?
-•
-a) Devuelve siempre 5
-•
-b) Genera un número aleatorio entre 1 y 10
-•
-c) Ordena números del 1 al 10
-•
-d) Convierte 1 y 10 en texto
-13. ¿Qué es un bucle en programación?
-•
-a) Una decisión
-•
-b) Una repetición
-•
-c) Una variable
-•
-d) Una función
-14. ¿Qué hace el siguiente código? for i in range(4): forward(100) right(90)
-•
-a) Dibuja un triángulo
-•
-b) Dibuja un círculo
-•
-c) Dibuja un cuadrado
-•
-d) Dibuja una línea recta
-15. ¿Qué palabra usamos para tomar decisiones en Python?
-•
-a) for
-•
-b) if
-•
-c) print
-•
-d) input
-16. ¿Qué imprime este código? x = 3 if x == 5: print("Es cinco") else: print("No es cinco")
-•
-a) Es cinco
-•
-b) No es cinco
-•
-c) Error
-•
-d) Nada
-17. ¿Qué es una función en Python?
-•
-a) Un dibujo
-•
-b) Un tipo de variable
-•
-c) Un bloque de código que realiza una tarea
-•
-d) Una lista de números
-18. ¿Qué es Python?
-•
-a) Un tipo de serpiente
-•
-b) Un juego de mesa
-•
-c) Un lenguaje de programación
-•
-d) Un lenguaje que no existe
-19. ¿Qué comando se usa para mover la tortuga sin dibujar?
-•
-a) penup()
-•
-b) pendown()
-•
-c) move()
-•
-d) jump()
-20. ¿Para qué sirve PyGame?
-•
-a) Dibujar en papel
-•
-b) Crear videojuegos en Python
-•
-c) Hacer cálculos matemáticos
-•
-d) Escribir cuentos
+
+
+Las tuplas y los diccionarios 
+Ejemplo  mostrando como las tuplas y los diccionarios pueden trabajar juntos.
+
+problema:
+
+Necesitas un programa para calcular los promedios de tus alumnos.
+El programa pide el nombre del alumno seguido de su calificación.
+Los nombres son ingresados en cualquier orden.
+El ingresar un nombre vacío finaliza el ingreso de los datos 
+Una lista con todos los nombre y el promedio de cada alumno debe ser mostrada al final.
+
+
+Ahora se analizará línea por línea:
+
+Línea 1: crea un diccionario vacío para ingresar los datos: el nombre del alumno es empleado como clave, mientras que todas las calificaciones asociadas son almacenadas en una tupla (la tupla puede ser el valor de un diccionario, esto no es un problema).
+Línea 3: se ingresa a un bucle "infinito" (no te preocupes, saldrémos de el en el momento indicado).
+Línea 4: se lee el nombre del alumno aquí.
+Línea 5-6: si el nombre es una cadena vacía (), salimos del bucle.
+Línea 8: se pide la calificación del estudiante (un valor entero en el rango del 1-10).
+Línea 9-10: si la puntuación ingresada no está dentro del rango de 0 a 10, se abandona el bucle.
+Línea 12-13: si el nombre del estudiante ya se encuentra en el diccionario, se alarga la tupla asociada con la nueva calificación (observa el operador +=).
+Línea 14-15: si el estudiante es nuevo (desconocido para el diccionario), se crea una entrada nueva, su valor es una tupla de un solo elemento la cual contiene la calificación ingresada.
+Línea 17: se itera a través de los nombres ordenados de los estudiantes.
+Línea 18-19: inicializa los datos necesarios para calcular el promedio (sum y counter).
+Línea 20-22: se itera a través de la tupla, tomado todas las calificaciones subsecuentes y actualizando la suma junto con el contador.
+Línea 23: se calcula e imprime el promedio del alumno junto con su nombre.
+
+EJERCICIOS
+1.Salida?
+colors = {
+    "blanco": (255, 255, 255),
+    "gris": (128, 128, 128),
+    "rojo": (255, 0, 0),
+    "verde": (0, 128, 0)
+    }
+
+for col, rgb in colors.items():
+    print(col, ":", rgb)
+
+2.Salida?
+my_dictionary = {"A": 1, "B": 2}
+copy_my_dictionary = my_dictionary.copy()
+my_dictionary.clear()
+print(copy_my_dictionary)
