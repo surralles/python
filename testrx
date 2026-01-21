@@ -1,33 +1,61 @@
-def print_football():
-    print('Tiempo de juego: dos mitades de 45 minutos cada una')
-    print('Número de jugadores: 11 por equipo')
-    print('El objetivo del juego es anotar tantos goles como sea posible')
+Tu tarea aquí es muy especial: ¡Debes diseñar un devorador de vocales! Escribe un programa que use:
+
+Un bucle for.
+El concepto de ejecución condicional (if-elif-else).
+La sentencia continue.
+Tu programa debe:
+
+Pedir al usuario que ingrese una palabra.
+Utiliza user_word = user_word.upper() para convertir la palabra ingresada por el usuario a mayúsculas; 
+Utiliza la ejecución condicional y la instrucción continue para "comer" las siguientes vocales A , E , I , O , U de la palabra ingresada.
+Imprime las letras no consumidas en la pantalla, cada una de ellas en una línea separada.
 
 
-def print_hockey():
-    print('Tiempo de juego: tres períodos de 20 minutos cada uno')
-    print('Número de jugadores: 6 por equipo')
-    print('El objetivo del juego es anotar tantos goles como sea posible')
 
 
-def print_sprint():
-    print('Tiempo de carrera: ilimitado')
-    print('El objetivo es alcanzar la línea de meta lo más rápido posible')
-    print('Datos interesantes:')
-    print('-La disciplina atlética más antigua desde los primeros Juegos Olímpicos')
-    print('-El récord absoluto (9.63 segundos) fue establecido en el 2012 por Usain Bolt')
 
 
-import sport_rules
-print('En el programa de hoy:\n1-fútbol\n2-hockey\n3-carrera de 100 m')
-answer = input('Tu elección (off - salida):')
-while answer != 'off':
-   if answer == '1':
-       sport_rules.print_football()
-   elif answer == '2':
-       sport_rules.print_hockey()
-   elif answer == '3':
-       sport_rules.print_sprint()
-   else:
-       print('¡Deporte no encontrado!')
-   answer = input('Tu elección (off - salida):')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+user_word = input("Ingresa tu palabra: ")
+user_word = user_word.upper()
+
+for letter in user_word:
+    if letter == "A":
+        continue
+    elif letter == "E":
+        continue
+    elif letter == "I":
+        continue
+    elif letter == "O":
+        continue
+    elif letter == "U":
+        continue
+    else:
+        print(letter)
