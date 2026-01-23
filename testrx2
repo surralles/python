@@ -1,55 +1,86 @@
---[[local tool = script.Parent
+local tool = script.Parent
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
+-- CONFIG
+local HIP_OFFSET = CFrame.new(0.8, -0.6, -1.2)
+local AIM_LERP = 0.15
 
-
+-- ESTADO
 local viewmodel
 local renderConn
+local isAiming = false
+local aimCF = CFrame.new()
 
--- Función mejorada para manejar la visibilidad
+-- Visibilidad del personaje
 local function setCharacterVisible(character, visible)
-	for _, part in pairs(character:GetDescendants()) do
-		if part:IsA("BasePart") or part:IsA("Decal") then
-			-- En 1ra persona el LocalTransparencyModifier debe ser 1 (invisible)
-			-- En 3ra persona debe ser 0 (visible)
-			part.LocalTransparencyModifier = visible and 0 or 1
+	for _, obj in pairs(character:GetDescendants()) do
+		if obj:IsA("BasePart") or obj:IsA("Decal") then
+			obj.LocalTransparencyModifier = visible and 0 or 1
 		end
 	end
 end
 
+-- INPUT APUNTAR
+UserInputService.InputBegan:Connect(function(input, gp)
+	if gp then return end
+	if input.UserInputType == Enum.UserInputType.MouseButton2 then
+		isAiming = true
+	end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton2 then
+		isAiming = false
+	end
+end)
+
+-- EQUIPAR
 tool.Equipped:Connect(function()
 	local character = player.Character or player.CharacterAdded:Wait()
-
-	-- 1. Forzar Primera Persona
-	-- player.CameraMode = Enum.CameraMode.LockFirstPerson
 	camera.FieldOfView = 70
 
-	-- 2. Crear Viewmodel
-	local vmModel = game.ReplicatedStorage.Viewmodels:FindFirstChild(tool.Name)
-	if vmModel then
-		viewmodel = vmModel:Clone()
-		viewmodel.Parent = camera
+	setCharacterVisible(character, false)
+
+	local vmTemplate = game.ReplicatedStorage.Viewmodels:FindFirstChild(tool.Name)
+	if not vmTemplate then
+		warn("No hay ViewModel para", tool.Name)
+		return
 	end
 
-	-- 3. Renderizado del Viewmodel y Ocultar Cuerpo
+	viewmodel = vmTemplate:Clone()
+	viewmodel.Parent = camera
+
+	aimCF = CFrame.new()
+	isAiming = false
+
 	renderConn = RunService.RenderStepped:Connect(function()
-		if viewmodel then
-			viewmodel:PivotTo(camera.CFrame * CFrame.new(0.8, -0.6, -1.2))
+		if not viewmodel then return end
+
+		-- CALCULAR AIM OFFSET
+		if isAiming and viewmodel:FindFirstChild("AimPart") and viewmodel.PrimaryPart then
+			local offset = viewmodel.AimPart.CFrame:ToObjectSpace(viewmodel.PrimaryPart.CFrame)
+			aimCF = aimCF:Lerp(offset, AIM_LERP)
+		else
+			aimCF = aimCF:Lerp(CFrame.new(), AIM_LERP)
 		end
-		-- Mantenemos el cuerpo invisible mientras esté equipada
+
+		-- POSICIONAR VIEWMODEL
+		viewmodel:PivotTo(camera.CFrame * HIP_OFFSET * aimCF)
+
+		-- mantener cuerpo invisible
 		if player.Character then
 			setCharacterVisible(player.Character, false)
 		end
 	end)
 end)
 
+-- DESEQUIPAR
 tool.Unequipped:Connect(function()
-	-- 1. Volver a Tercera Persona
 	player.CameraMode = Enum.CameraMode.Classic
 
-	-- 2. Limpiar Viewmodel y Conexión
 	if renderConn then
 		renderConn:Disconnect()
 		renderConn = nil
@@ -60,14 +91,7 @@ tool.Unequipped:Connect(function()
 		viewmodel = nil
 	end
 
-	-- 3. Hacer el cuerpo visible de nuevo
 	if player.Character then
-		-- Forzamos la visibilidad reseteando el modificador
-		for _, part in pairs(player.Character:GetDescendants()) do
-			if part:IsA("BasePart") then
-				part.LocalTransparencyModifier = 0
-			end
-		end
+		setCharacterVisible(player.Character, true)
 	end
-end
-]]
+end)
