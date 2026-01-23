@@ -1,127 +1,73 @@
-game.Players.PlayerAdded:Connect(function(player)
-
-	local leaderstats = Instance.new("Folder")
-	leaderstats.Name = "leaderstats"
-	leaderstats.Parent = player
-
-	local coins = Instance.new("IntValue")
-	coins.Name = "Coins"
-	coins.Value = 0
-	coins.Parent = leaderstats
-
-	local exp = Instance.new("IntValue")
-	exp.Name = "Exp"
-	exp.Value = 0
-	exp.Parent = leaderstats
-end)
+local tool = script.Parent
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local RunService = game:GetService("RunService")
 
 
 
-function whenLoaded(player)
-	warn("Jugador", player, "Conectado al juego")
-	script.Parent.Player.Value = player
-	print(script.Parent.Player.Value)
-end
-game.Players.PlayerAdded:Connect(whenLoaded)
+local viewmodel
+local renderConn
 
-
-script.Parent.Touched:Connect(function(hit)
-	if hit and hit.Parent:FindFirstChild("Humanoid") then
-		local money = game.Players[hit.Parent.Name].leaderstats.Coins
-		money.Value += 1
-		script.Parent:Destroy()
-	end
-end)
-
-
-
-local coin_time = 2
-while true do
-	coin_time = math.random(1,2)
-	wait(coin_time)
-	local part = Instance.new("Part")
-	part.Name = "coin"
-	part.Shape = "CornerWedge"
-	part.Material = "Metal"
-	part.Color = Color3.new(0.760784, 0.811765, 0.772549)
-	part.Size = Vector3.new(0.2, 2, 2)
-	part.Position = script.Parent.Position + Vector3.new(math.random(-2, 2), 2, math.random(-2, 2))
-	part.Anchored = true
-	part.CanCollide = false
-	part.Parent = game.Workspace.CoinSpawner
-	local s = script.Parent.CoinCollectScript
-	s.Disabled = false
-	s:Clone().Parent = part
-	s.Disabled = true
-
-end
-
-
-
-
-local Players = game:GetService("Players")
-local frame = script.Parent.Frame
-
-local function clearRows()
-	for _, child in ipairs(frame:GetChildren()) do
-		if child:IsA("Frame") and child.Name == "Row" then
-			child:Destroy()
+-- Función mejorada para manejar la visibilidad
+local function setCharacterVisible(character, visible)
+	for _, part in pairs(character:GetDescendants()) do
+		if part:IsA("BasePart") or part:IsA("Decal") then
+			-- En 1ra persona el LocalTransparencyModifier debe ser 1 (invisible)
+			-- En 3ra persona debe ser 0 (visible)
+			part.LocalTransparencyModifier = visible and 0 or 1
 		end
 	end
 end
 
-local function createRow(plr)
-	local row = Instance.new("Frame")
-	row.Name = "Row"
-	row.Size = UDim2.new(1,0,0,30)
-	row.BackgroundTransparency = 1
-	row.Parent = frame
+tool.Equipped:Connect(function()
+	local character = player.Character or player.CharacterAdded:Wait()
 
-	local nameLabel = Instance.new("TextLabel")
-	nameLabel.Size = UDim2.new(0.5,0,1,0)
-	nameLabel.BackgroundTransparency = 1
-	nameLabel.TextScaled = true
-	nameLabel.Text = plr.Name
-	nameLabel.Parent = row
-	nameLabel.TextScaled = true
+	-- 1. Forzar Primera Persona
+	-- player.CameraMode = Enum.CameraMode.LockFirstPerson
+	camera.FieldOfView = 70
 
-	local coinsLabel = Instance.new("TextLabel")
-	coinsLabel.Size = UDim2.new(0.25,0,1,0)
-	coinsLabel.Position = UDim2.new(0.5,0,0,0)
-	coinsLabel.BackgroundTransparency = 1
-	coinsLabel.TextScaled = true
-	coinsLabel.Parent = row
-	coinsLabel.TextScaled = true
+	-- 2. Crear Viewmodel
+	local vmModel = game.ReplicatedStorage.Viewmodels:FindFirstChild(tool.Name)
+	if vmModel then
+		viewmodel = vmModel:Clone()
+		viewmodel.Parent = camera
+	end
 
-	local expLabel = Instance.new("TextLabel")
-	expLabel.Size = UDim2.new(0.25,0,1,0)
-	expLabel.Position = UDim2.new(0.75,0,0,0)
-	expLabel.BackgroundTransparency = 1
-	expLabel.TextScaled = true
-	expLabel.Parent = row
-	expLabel.TextScaled = true
+	-- 3. Renderizado del Viewmodel y Ocultar Cuerpo
+	renderConn = RunService.RenderStepped:Connect(function()
+		if viewmodel then
+			viewmodel:PivotTo(camera.CFrame * CFrame.new(0.8, -0.6, -1.2))
+		end
+		-- Mantenemos el cuerpo invisible mientras esté equipada
+		if player.Character then
+			setCharacterVisible(player.Character, false)
+		end
+	end)
+end)
 
-	local function update()
-		local stats = plr:FindFirstChild("leaderstats")
-		if stats then
-			coinsLabel.Text = stats.Coins.Value
-			expLabel.Text = stats.Exp.Value
+tool.Unequipped:Connect(function()
+	-- 1. Volver a Tercera Persona
+	player.CameraMode = Enum.CameraMode.Classic
+
+	-- 2. Limpiar Viewmodel y Conexión
+	if renderConn then
+		renderConn:Disconnect()
+		renderConn = nil
+	end
+
+	if viewmodel then
+		viewmodel:Destroy()
+		viewmodel = nil
+	end
+
+	-- 3. Hacer el cuerpo visible de nuevo
+	if player.Character then
+		-- Forzamos la visibilidad reseteando el modificador
+		for _, part in pairs(player.Character:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.LocalTransparencyModifier = 0
+			end
 		end
 	end
-
-	plr.leaderstats.Coins.Changed:Connect(update)
-	plr.leaderstats.Exp.Changed:Connect(update)
-	update()
 end
 
-local function updateLeaderboard()
-	clearRows()
-	for _, plr in ipairs(Players:GetPlayers()) do
-		createRow(plr)
-	end
-end
-
-Players.PlayerAdded:Connect(updateLeaderboard)
-Players.PlayerRemoving:Connect(updateLeaderboard)
-
-updateLeaderboard()
