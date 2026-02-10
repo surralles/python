@@ -1,73 +1,95 @@
-DCCIONARIOS
 
-REEMPLAZAR
-dictionary = {"gato" : "perro", "dog" : "chien", "caballo" : "cheval"}
-dictionary['gato'] = 'minou'
-print(dictionary)
 
-AGREGAR
-dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
-dictionary['cisne'] = 'cygne'
-print(dictionary)
----------------------
-dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
-dictionary.update({"pato": "canard"})
-print(dictionary)
-
-ELIMINAR
-dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
-del dictionary['perro']
-print(dictionary)
-ELIMINAR ULTIMO LISTA
-dictionary = {"gato" : "chat", "perro" : "chien", "caballo" : "cheval"}
-del dictionary['perro']
-print(dictionary)
+2.3. Programa completo:
+while True:
+   try:
+       children_amount = int(input('Ingresa el número de niños'))
+       sweets_amount = int(input('Ingresa el número de caramelos'))
+       break
+   except:
+       print('¡Error! El número debe ser un entero')
+try:
+   portion = sweets_amount/children_amount
+   print('Cada niño recibirá', portion, 'caramelos')
+except:
+   print('¡Error de división! ¿Vinieron 0 niños?')
 
 
 
 
+2.4. Programa completo:
+print('¿Cuál es la montaña más alta en el mundo?')
+while True:
+    answer = input('1 - Monte Elbrus, 2 - Mauna Loa, 3 - Monte Everest, 4 - Denali')
+    try:
+        answer = int(answer)
+        break
+    except:
+        print('¡Error! Ingresa el número de la respuesta correcta')
+if answer == 3:
+    print('¡Correcto!')
+else:
+    print('No. Monte Everest, 8,848 metros')
 
-Las tuplas y los diccionarios 
-Ejemplo  mostrando como las tuplas y los diccionarios pueden trabajar juntos.
-
-problema:
-
-Necesitas un programa para calcular los promedios de tus alumnos.
-El programa pide el nombre del alumno seguido de su calificación.
-Los nombres son ingresados en cualquier orden.
-El ingresar un nombre vacío finaliza el ingreso de los datos 
-Una lista con todos los nombre y el promedio de cada alumno debe ser mostrada al final.
 
 
-Ahora se analizará línea por línea:
 
-Línea 1: crea un diccionario vacío para ingresar los datos: el nombre del alumno es empleado como clave, mientras que todas las calificaciones asociadas son almacenadas en una tupla (la tupla puede ser el valor de un diccionario, esto no es un problema).
-Línea 3: se ingresa a un bucle "infinito" (no te preocupes, saldrémos de el en el momento indicado).
-Línea 4: se lee el nombre del alumno aquí.
-Línea 5-6: si el nombre es una cadena vacía (), salimos del bucle.
-Línea 8: se pide la calificación del estudiante (un valor entero en el rango del 1-10).
-Línea 9-10: si la puntuación ingresada no está dentro del rango de 0 a 10, se abandona el bucle.
-Línea 12-13: si el nombre del estudiante ya se encuentra en el diccionario, se alarga la tupla asociada con la nueva calificación (observa el operador +=).
-Línea 14-15: si el estudiante es nuevo (desconocido para el diccionario), se crea una entrada nueva, su valor es una tupla de un solo elemento la cual contiene la calificación ingresada.
-Línea 17: se itera a través de los nombres ordenados de los estudiantes.
-Línea 18-19: inicializa los datos necesarios para calcular el promedio (sum y counter).
-Línea 20-22: se itera a través de la tupla, tomado todas las calificaciones subsecuentes y actualizando la suma junto con el contador.
-Línea 23: se calcula e imprime el promedio del alumno junto con su nombre.
+2.5. Programa de prueba de conocimientos sobre ciencias sociales:
+print('¿Qué significan las siglas OMS?')
+print('1-Organización Mundial de la Salud')
+print('2-Organización Mundial del Sol')
+print('3-Organización Mundialista de Serpientes')
+print('4-Organización Mundialista de Sanidad')
+while True:
+   try:
+       answer = int(input())
+       break
+   except:
+       print('¡Error! Ingresa el número de la respuesta correcta')
+if answer == 1:
+   print('¡Correcto!')
+else:
+   print('No. OMS es Organización Mundial de la Salud')
 
-EJERCICIOS
-1.Salida?
-colors = {
-    "blanco": (255, 255, 255),
-    "gris": (128, 128, 128),
-    "rojo": (255, 0, 0),
-    "verde": (0, 128, 0)
-    }
 
-for col, rgb in colors.items():
-    print(col, ":", rgb)
 
-2.Salida?
-my_dictionary = {"A": 1, "B": 2}
-copy_my_dictionary = my_dictionary.copy()
-my_dictionary.clear()
-print(copy_my_dictionary)
+
+
+
+Tarea adicional. 2.1:
+#programa de coincidencia de algoritmos
+while True:
+   try:
+       a = int(input('El lado del cuadrado:'))
+       break
+   except:
+       print('¡Error! Ingresa el número sin ningún otro caracter')
+perimeter = a * 4
+print('El perímetro del cuadrado:', perimeter)
+
+
+
+
+
+Tarea adicional 2.2:
+from time import *
+start = time()
+print('Ingresa el número del dato falso sobre el cuerpo humano')
+print('1-Es imposible reír al mismo tiempo que a uno le hacen cosquillas')
+print('2-El cabello humano dura de 2 a 5 años')
+print('3-Para dar 1 paso se usan 200 músculos')
+print('4-Un ancestro distante de los humanos tenía 6 dedos')
+
+
+while True:
+   try:
+       answer = int(input())
+       break
+   except:
+       print('¡Error! Ingresa el número sin otros caracteres')
+if answer == 4:
+   print('¡Correcto!')
+else:
+   print('No, las personas nunca han tenido 6 dedos')
+end = time()
+print('Tiempo de ejecución del programa', end - start)
