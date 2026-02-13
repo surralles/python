@@ -1,97 +1,50 @@
-local tool = script.Parent
-local player = game.Players.LocalPlayer
-local camera = workspace.CurrentCamera
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
+local block_size = 20
+local map_limit = 200
 
--- CONFIG
-local HIP_OFFSET = CFrame.new(0.8, -0.6, -1.2)
-local AIM_LERP = 0.15
+local mapFolder = game.Workspace.Map
+local startPos = Vector3.new(-map_limit, 1, -map_limit)
+local endPos = Vector3.new(map_limit, 1, map_limit)
 
--- ESTADO
-local viewmodel
-local renderConn
-local isAiming = false
-local aimCF = CFrame.new()
+for x = -map_limit, map_limit, block_size do
+	for z = -map_limit, map_limit, block_size do
 
--- Visibilidad del personaje
-local function setCharacterVisible(character, visible)
-	for _, obj in pairs(character:GetDescendants()) do
-		if obj:IsA("BasePart") or obj:IsA("Decal") then
-			obj.LocalTransparencyModifier = visible and 0 or 1
+		local block = game.ServerStorage.Block:Clone()
+		block.Parent = mapFolder
+		block.Size = Vector3.new(block_size, 20, block_size)
+		block.Position = Vector3.new(x, 9, z)
+
+		-- Crear pasillos regulares
+		if (x / block_size) % 2 == 0 or (z / block_size) % 2 == 0 then
+			block:Destroy()
+		end
+
+		-- Huecos aleatorios controlados
+		if math.random(1, 10) == 1 then
+			block:Destroy()
+		end
+
+		-- Asegurar INICIO libre
+		if Vector3.new(x, 1, z) == startPos then
+			block:Destroy()
+		end
+
+		-- Asegurar SALIDA libre
+		if Vector3.new(x, 1, z) == endPos then
+			block:Destroy()
 		end
 	end
 end
 
--- INPUT APUNTAR
-UserInputService.InputBegan:Connect(function(input, gp)
-	if gp then return end
-	if input.UserInputType == Enum.UserInputType.MouseButton2 then
-		isAiming = true
-	end
-end)
+-- Crear bloque visual de INICIO
+local startBlock = game.ServerStorage.Block:Clone()
+startBlock.Size = Vector3.new(block_size, 1, block_size)
+startBlock.Position = startPos
+startBlock.Color = Color3.fromRGB(0, 255, 0)
+startBlock.Parent = mapFolder
 
-UserInputService.InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton2 then
-		isAiming = false
-	end
-end)
-
--- EQUIPAR
-tool.Equipped:Connect(function()
-	local character = player.Character or player.CharacterAdded:Wait()
-	camera.FieldOfView = 70
-
-	setCharacterVisible(character, false)
-
-	local vmTemplate = game.ReplicatedStorage.Viewmodels:FindFirstChild(tool.Name)
-	if not vmTemplate then
-		warn("No hay ViewModel para", tool.Name)
-		return
-	end
-
-	viewmodel = vmTemplate:Clone()
-	viewmodel.Parent = camera
-
-	aimCF = CFrame.new()
-	isAiming = false
-
-	renderConn = RunService.RenderStepped:Connect(function()
-		if not viewmodel then return end
-
-		-- CALCULAR AIM OFFSET
-		if isAiming and viewmodel:FindFirstChild("AimPart") and viewmodel.PrimaryPart then
-			local offset = viewmodel.AimPart.CFrame:ToObjectSpace(viewmodel.PrimaryPart.CFrame)
-			aimCF = aimCF:Lerp(offset, AIM_LERP)
-		else
-			aimCF = aimCF:Lerp(CFrame.new(), AIM_LERP)
-		end
-
-		-- POSICIONAR VIEWMODEL
-		viewmodel:PivotTo(camera.CFrame * HIP_OFFSET * aimCF)
-
-		-- mantener cuerpo invisible
-		if player.Character then
-			setCharacterVisible(player.Character, false)
-		end
-	end)
-end)
-
--- DESEQUIPAR
-tool.Unequipped:Connect(function()
-	player.CameraMode = Enum.CameraMode.Classic
-
-	if renderConn then
-		renderConn:Disconnect()
-		renderConn = nil
-	end
-
-	if viewmodel then
-		viewmodel:Destroy()
-		viewmodel = nil
-	end
-
-	if player.Character then
-		setCharacterVisible(player.Character, true)
-	end
-end)
+-- Crear bloque visual de SALIDA
+local endBlock = game.ServerStorage.Block:Clone()
+endBlock.Size = Vector3.new(block_size, 1, block_size)
+endBlock.Position = endPos
+endBlock.Color = Color3.fromRGB(255, 0, 0)
+endBlock.Parent = mapFolder
