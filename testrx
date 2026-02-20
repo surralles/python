@@ -30,3 +30,18 @@ shootRemote.OnServerEvent:Connect(function(player, origin, direction, damage)
 		game.Debris:AddItem(part, 0.5)
 	end
 end)
+
+
+-- SETTINGS en Modules
+
+local weapon = {}
+
+weapon.damage = 25
+weapon.fireRate = 0.1
+weapon.range = 500
+weapon.spread = 1.5
+weapon.maxAmmo = 30
+weapon.reloadTime = 2
+weapon.automatic = true
+
+return weapon
