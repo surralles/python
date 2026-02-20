@@ -1,50 +1,32 @@
-local block_size = 20
-local map_limit = 200
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local shootRemote = ReplicatedStorage:WaitForChild("Events"):WaitForChild("Shoot")
 
-local mapFolder = game.Workspace.Map
-local startPos = Vector3.new(-map_limit, 1, -map_limit)
-local endPos = Vector3.new(map_limit, 1, map_limit)
+shootRemote.OnServerEvent:Connect(function(player, origin, direction, damage)
+	if not origin or not direction then return end
 
-for x = -map_limit, map_limit, block_size do
-	for z = -map_limit, map_limit, block_size do
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = {player.Character} -- no pegar al propio jugador
+	params.FilterType = Enum.RaycastFilterType.Blacklist
 
-		local block = game.ServerStorage.Block:Clone()
-		block.Parent = mapFolder
-		block.Size = Vector3.new(block_size, 20, block_size)
-		block.Position = Vector3.new(x, 9, z)
+	local raycastResult = workspace:Raycast(origin, direction, params)
 
-		-- Crear pasillos regulares
-		if (x / block_size) % 2 == 0 or (z / block_size) % 2 == 0 then
-			block:Destroy()
+	if raycastResult then
+		local hitPart = raycastResult.Instance
+		local humanoid = hitPart.Parent:FindFirstChildOfClass("Humanoid") 
+			or hitPart.Parent.Parent:FindFirstChildOfClass("Humanoid")
+
+		if humanoid then
+			humanoid:TakeDamage(damage)
 		end
 
-		-- Huecos aleatorios controlados
-		if math.random(1, 10) == 1 then
-			block:Destroy()
-		end
-
-		-- Asegurar INICIO libre
-		if Vector3.new(x, 1, z) == startPos then
-			block:Destroy()
-		end
-
-		-- Asegurar SALIDA libre
-		if Vector3.new(x, 1, z) == endPos then
-			block:Destroy()
-		end
+		-- ✨ DEBUG VISUAL: dibuja un puntito rojo donde golpea la bala
+		local part = Instance.new("Part")
+		part.Size = Vector3.new(0.2,0.2,0.2)
+		part.Position = raycastResult.Position
+		part.Anchored = true
+		part.CanCollide = false
+		part.Color = Color3.fromRGB(255,0,0)
+		part.Parent = workspace
+		game.Debris:AddItem(part, 0.5)
 	end
-end
-
--- Crear bloque visual de INICIO
-local startBlock = game.ServerStorage.Block:Clone()
-startBlock.Size = Vector3.new(block_size, 1, block_size)
-startBlock.Position = startPos
-startBlock.Color = Color3.fromRGB(0, 255, 0)
-startBlock.Parent = mapFolder
-
--- Crear bloque visual de SALIDA
-local endBlock = game.ServerStorage.Block:Clone()
-endBlock.Size = Vector3.new(block_size, 1, block_size)
-endBlock.Position = endPos
-endBlock.Color = Color3.fromRGB(255, 0, 0)
-endBlock.Parent = mapFolder
+end)
