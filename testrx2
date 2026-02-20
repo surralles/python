@@ -14,7 +14,50 @@ local renderConn
 local isAiming = false
 local aimCF = CFrame.new()
 
--- Visibilidad del personaje
+local weaponModule = require(game.ReplicatedStorage.Modules[tool.Name])
+local canShoot = true
+local isReloading = false
+local ammo = weaponModule.maxAmmo
+
+-- REMOTE EVENT PARA DISPARO
+local shootRemote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("Shoot")
+
+-- FUNCION PARA DISPARAR
+local function Shoot()
+	if not canShoot or isReloading or ammo <= 0 then return end
+	canShoot = false
+	ammo -= 1
+
+	-- ORIGEN Y DIRECCION DEL RAYCAST
+	local origin = camera.CFrame.Position
+	local direction = camera.CFrame.LookVector * weaponModule.range
+
+	-- SPREAD
+	local spread = Vector3.new(
+		math.random(-100,100)/100 * weaponModule.spread,
+		math.random(-100,100)/100 * weaponModule.spread,
+		0
+	)
+	direction = (direction + spread).Unit * weaponModule.range
+
+	-- LLAMADA AL SERVIDOR
+	shootRemote:FireServer(origin, direction, weaponModule.damage)
+
+	-- CONTROL FIRE RATE
+	task.delay(weaponModule.fireRate, function()
+		canShoot = true
+	end)
+end
+
+-- INPUT CLICK IZQUIERDO
+UserInputService.InputBegan:Connect(function(input, gp)
+	if gp then return end
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		Shoot()
+	end
+end)
+
+-- VISIBILIDAD DEL PERSONAJE
 local function setCharacterVisible(character, visible)
 	for _, obj in pairs(character:GetDescendants()) do
 		if obj:IsA("BasePart") or obj:IsA("Decal") then
@@ -23,7 +66,7 @@ local function setCharacterVisible(character, visible)
 	end
 end
 
--- INPUT APUNTAR
+-- INPUT APUNTAR (ADS)
 UserInputService.InputBegan:Connect(function(input, gp)
 	if gp then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton2 then
@@ -37,7 +80,7 @@ UserInputService.InputEnded:Connect(function(input)
 	end
 end)
 
--- EQUIPAR
+-- EQUIPAR TOOL
 tool.Equipped:Connect(function()
 	local character = player.Character or player.CharacterAdded:Wait()
 	camera.FieldOfView = 70
@@ -70,14 +113,14 @@ tool.Equipped:Connect(function()
 		-- POSICIONAR VIEWMODEL
 		viewmodel:PivotTo(camera.CFrame * HIP_OFFSET * aimCF)
 
-		-- mantener cuerpo invisible
+		-- MANTENER CUERPO INVISIBLE
 		if player.Character then
 			setCharacterVisible(player.Character, false)
 		end
 	end)
 end)
 
--- DESEQUIPAR
+-- DESEQUIPAR TOOL
 tool.Unequipped:Connect(function()
 	player.CameraMode = Enum.CameraMode.Classic
 
