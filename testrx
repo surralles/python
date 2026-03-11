@@ -1,47 +1,27 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local shootRemote = ReplicatedStorage:WaitForChild("Events"):WaitForChild("Shoot")
-
-shootRemote.OnServerEvent:Connect(function(player, origin, direction, damage)
-	if not origin or not direction then return end
-
-	local params = RaycastParams.new()
-	params.FilterDescendantsInstances = {player.Character} -- no pegar al propio jugador
-	params.FilterType = Enum.RaycastFilterType.Blacklist
-
-	local raycastResult = workspace:Raycast(origin, direction, params)
-
-	if raycastResult then
-		local hitPart = raycastResult.Instance
-		local humanoid = hitPart.Parent:FindFirstChildOfClass("Humanoid") 
-			or hitPart.Parent.Parent:FindFirstChildOfClass("Humanoid")
-
-		if humanoid then
-			humanoid:TakeDamage(damage)
-		end
-
-		-- ✨ DEBUG VISUAL: dibuja un puntito rojo donde golpea la bala
-		local part = Instance.new("Part")
-		part.Size = Vector3.new(0.2,0.2,0.2)
-		part.Position = raycastResult.Position
-		part.Anchored = true
-		part.CanCollide = false
-		part.Color = Color3.fromRGB(255,0,0)
-		part.Parent = workspace
-		game.Debris:AddItem(part, 0.5)
-	end
-end)
+from time import sleep
+from hero import Hero
 
 
--- SETTINGS en Modules
+knight = Hero('Richard', 50, 25, 20, 'espada')
+dragon = Hero('Dragón', 100, 25, 10, 'flama')
 
-local weapon = {}
 
-weapon.damage = 25
-weapon.fireRate = 0.1
-weapon.range = 500
-weapon.spread = 1.5
-weapon.maxAmmo = 30
-weapon.reloadTime = 2
-weapon.automatic = true
+print('¡La Tierra Media está en peligro! Un caballero valiente se apresura para rescatarla...')
+knight.print_info()
 
-return weapon
+
+sleep(5)
+print(knight.name + ' está atravesando el bosque. De repente, ve a un ladrón mezquino en el camino...')
+
+
+sleep(5)
+rascal = Hero('Peter', 20, 5, 5, 'cuchillo')
+rascal.print_info()
+
+
+sleep(5)
+if input('¿Pelear? (sí/no) >>') == 'sí':
+   print('\n¡QUÉ EMPIECE LA PELEA!\n')
+   sleep(5)
+   knight.fight(rascal)
+   sleep(5)
