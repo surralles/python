@@ -1,73 +1,44 @@
-def add_tag():
-    if list_notes.selectedItems():
-        key = list_notes.selectedItems()[0].text()
-        tag = field_tag.text()
-        if not tag in notes[key]["etiquetas"]:
-            notes[key]["etiquetas"].append(tag)
-            list_tags.addItem(tag)
-            field_tag.clear()
-        with open("notes_data.json", "w") as file:
-            json.dump(notes, file, sort_keys=True, ensure_ascii=False)
-        print(notes)
-    else:
-        print("¡La nota para añadir una etiqueta no está seleccionada!")
-
-
-def del_tag():
-    if list_tags.selectedItems():
-        key = list_notes.selectedItems()[0].text()
-        tag = list_tags.selectedItems()[0].text()
-        notes[key]["etiquetas"].remove(tag)
-        list_tags.clear()
-        list_tags.addItems(notes[key]["etiquetas"])
-        with open("notes_data.json", "w") as file:
-            json.dump(notes, file, sort_keys=True, ensure_ascii=False)
-    else:
-        print("¡La etiqueta a ser eliminada no está seleccionada!")
-
-
-def search_tag():
-    print(button_tag_search.text())
-    tag = field_tag.text()
-    if button_tag_search.text() == "Buscar notas por etiqueta" and tag:
-        print(tag)
-        notes_filtered = {} #las notas con la etiqueta resaltada estarán aquí
-        for note in notes:
-            if tag in notes[note]["etiquetas"]: 
-                notes_filtered[note]=notes[note]
-        button_tag_search.setText("Restablecer búsqueda")
-        list_notes.clear()
-        list_tags.clear()
-        list_notes.addItems(notes_filtered)
-        print(button_tag_search.text())
-    elif button_tag_search.text() == "Restablecer búsqueda":
-        field_tag.clear()
-        list_notes.clear()
-        list_tags.clear()
-        list_notes.addItems(notes)
-        button_tag_search.setText("Buscar notas por etiqueta")
-        print(button_tag_search.text())
-    else:
-        pass
-    
-#Ejecución de la app
-#Adjuntando el manejo de eventos
-button_note_create.clicked.connect(add_note)
-list_notes.itemClicked.connect(show_note)
-button_note_save.clicked.connect(save_note)
-button_note_del.clicked.connect(del_note)
-button_tag_add.clicked.connect(add_tag)
-button_tag_del.clicked.connect(del_tag)
-button_tag_search.clicked.connect(search_tag)
-
-
-#app startup 
-notes_win.show()
-
-
-with open("notes_data.json", "r") as file:
-    notes = json.load(file)
-list_notes.addItems(notes)
-
-
-app.exec_()
+from random import randint
+from time import sleep
+ 
+class Hero():
+   #constructor de clase
+   def __init__(self, name, health, armor, power, weapon):
+       self.name = name
+       self.health = health #número
+       self.armor = armor #cadena
+       self.power = power #número
+       self.weapon = weapon #cadena
+   #mostrar información del personaje:
+   def print_info(self):
+       print('->' + self.name)
+       print('Nivel de salud:', self.health)
+       print('Clase de armadura:', self.armor)
+       print('Poder de golpe:', self.power)
+       print('Arma:', self.weapon, '\n')
+   #golpeando otro personaje
+   def strike(self, enemy):
+       attack = randint(self.power-5, self.power+5)
+       print('-> ¡GOLPE! ' + self.name + ' ataca' + enemy.name + ' con poder ' + str(attack) + ', usando ' + self.weapon + '\n')
+ 
+       enemy.armor -= attack
+       if enemy.armor < 0:
+           enemy.health += enemy.armor
+           enemy.armor = 0
+      
+       print(enemy.name + ' derrotado.\nClase de armadura soltada para ' + str(enemy.armor) + ',y nivel de salud reducido a ' + str(enemy.health) + '\n')
+  
+   #empezando una pelea
+   def fight(self, enemy):
+       while self.health and enemy.health > 0:
+           self.strike(enemy)
+           if enemy.health <= 0:
+               print(enemy.name, 'ha caído en esta difícil batalla.\n')
+               descanso
+           sleep(5)
+ 
+           enemy.strike(self)
+           if self.health <= 0:
+               print(self.name, 'ha caído en esta difícil batalla.\n')
+               descanso
+           sleep(5)
