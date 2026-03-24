@@ -1,27 +1,41 @@
-from time import sleep
-from hero import Hero
+
+4.
+class Student():
+   def __init__(self, name, average_grade):
+       self.name = name
+       self.average_grade = average_grade  
+       self.course = '-'
+   def print_info(self):
+       print('Estudiante: ', self.name)
+       print('Calificación promedio: ', self.average_grade)
+       print('Asistiendo curso electivo: ', self.course)
+   def select_course(self):
+       course = input('Ingresa el nombre del curso:')
+       self.course = course
+ 
+student = Student('Darius Steph', '4.8')
+student.print_info()
+student.select_course()
+student.print_info()
 
 
-knight = Hero('Richard', 50, 25, 20, 'espada')
-dragon = Hero('Dragón', 100, 25, 10, 'flama')
-
-
-print('¡La Tierra Media está en peligro! Un caballero valiente se apresura para rescatarla...')
-knight.print_info()
-
-
-sleep(5)
-print(knight.name + ' está atravesando el bosque. De repente, ve a un ladrón mezquino en el camino...')
-
-
-sleep(5)
-rascal = Hero('Peter', 20, 5, 5, 'cuchillo')
-rascal.print_info()
-
-
-sleep(5)
-if input('¿Pelear? (sí/no) >>') == 'sí':
-   print('\n¡QUÉ EMPIECE LA PELEA!\n')
-   sleep(5)
-   knight.fight(rascal)
-   sleep(5)
+5. 
+class Rectangle():
+   def __init__(self, length, width):
+       self.length = length
+       self.width = width
+   def print_info(self):
+       print('Dado un rectángulo con una longitud de', self.length, 'y un ancho de', self.width)
+   def calc_perimeter(self):
+       self.perimeter = (self.length + self.width) * 2
+       return self.perimeter
+   def calc_area(self):
+       self.area = self.length * self.width
+       return self.area
+ 
+a = int(input('Ingresar longitud:'))
+b = int(input('Ingresar ancho:'))
+rect = Rectangle(a, b)
+rect.print_info()
+print('Su perímetro:', rect.calc_perimeter())
+print('Su área:', rect.calc_area())
