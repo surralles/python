@@ -1,3 +1,16 @@
+class Animal():
+   def __init__(self, species, voice):
+       self.species = species
+       self.voice = voice  
+   def make_voice(self):
+       print(self.voice)
+
+
+my_animal = Animal('perro', '¡Woof!')
+
+
+print('Soy un robot-' + my_animal.species + '. Conozco el comando Voice:')
+my_animal.make_voice()
 
 4.
 class Student():
