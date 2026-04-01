@@ -1,10 +1,6 @@
-
-local StartPoint = script.Parent.Part1
-local EndPoint = script.Parent.Part2
-function TouchedFunc(touched)
-	if touched.Parent:FindFirstChild("Humanoid") then
-		local human = touched.Parent.HumanoidRootPart
-		human.Position = EndPoint.Position +Vector3.new(0,10,0)
-	end
+a = script.Parent.TextButton
+b = script.Parent.Frame
+function plus()
+	b.Visible = true
 end
-StartPoint.Touched:Connect(TouchedFunc)
+a.MouseButton1Click:Connect(plus)
