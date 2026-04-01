@@ -1,54 +1,9 @@
-class Animal():
-   def __init__(self, species, voice):
-       self.species = species
-       self.voice = voice  
-   def make_voice(self):
-       print(self.voice)
-
-
-my_animal = Animal('perro', '¡Woof!')
-
-
-print('Soy un robot-' + my_animal.species + '. Conozco el comando Voice:')
-my_animal.make_voice()
-
-4.
-class Student():
-   def __init__(self, name, average_grade):
-       self.name = name
-       self.average_grade = average_grade  
-       self.course = '-'
-   def print_info(self):
-       print('Estudiante: ', self.name)
-       print('Calificación promedio: ', self.average_grade)
-       print('Asistiendo curso electivo: ', self.course)
-   def select_course(self):
-       course = input('Ingresa el nombre del curso:')
-       self.course = course
- 
-student = Student('Darius Steph', '4.8')
-student.print_info()
-student.select_course()
-student.print_info()
-
-
-5. 
-class Rectangle():
-   def __init__(self, length, width):
-       self.length = length
-       self.width = width
-   def print_info(self):
-       print('Dado un rectángulo con una longitud de', self.length, 'y un ancho de', self.width)
-   def calc_perimeter(self):
-       self.perimeter = (self.length + self.width) * 2
-       return self.perimeter
-   def calc_area(self):
-       self.area = self.length * self.width
-       return self.area
- 
-a = int(input('Ingresar longitud:'))
-b = int(input('Ingresar ancho:'))
-rect = Rectangle(a, b)
-rect.print_info()
-print('Su perímetro:', rect.calc_perimeter())
-print('Su área:', rect.calc_area())
+local StartPoint = script.Parent.Part1
+local EndPoint = script.Parent.Part2
+function TouchedFunc(touched)
+	if touched.Parent:FindFirstChild("Humanoid") then
+		local human = touched.Parent.HumanoidRootPart
+		human.Position = EndPoint.Position +Vector3.new(0,10,0)
+	end
+end
+StartPoint.Touched:Connect(TouchedFunc)
