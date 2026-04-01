@@ -1,6 +1,41 @@
-a = script.Parent.TextButton
-b = script.Parent.Frame
-function plus()
-	b.Visible = true
+local textBox = script.Parent.TextBox
+local Frame = script.Parent
+local secretWord = "1234"
+local colorNormal = Color3.new(1, 1, 1) 
+local colorWrong = Color3.new(1, 0, 0) 
+local colorCorrect = Color3.new(0, 1, 0)
+textBox.ClearTextOnFocus = true
+textBox.Text = ""
+textBox.Font = Enum.Font.Code
+textBox.PlaceholderText = "Ingresa la palabra secreta"
+textBox.BackgroundColor3 = colorNormal
+local function onFocused()
+	textBox.BackgroundColor3 = colorNormal
 end
-a.MouseButton1Click:Connect(plus)
+local function onFocusLost(enterPressed, inputObject)
+	if enterPressed then
+		local guess = textBox.Text
+		if guess == secretWord then
+			textBox.Text = "Respuesta correcta"
+			textBox.BackgroundColor3 = colorCorrect
+			
+			game.Workspace.Teleports.Part1.Position=game.Workspace.Teleports.Part1.Position-Vector3.new(0,50,0)
+			game.Workspace.Teleports.Part1.Transparency=0.5
+			
+			wait(4)
+			Frame.Visible = false
+		else
+			textBox.Text = "Respuesta incorrecta"
+			textBox.BackgroundColor3 = colorWrong
+			wait(4)
+			Frame.Visible = false
+		end
+	else
+		textBox.Text = ""
+		textBox.BackgroundColor3 = colorNormal
+	end
+end
+textBox.FocusLost:Connect(onFocusLost)
+textBox.Focused:Connect(onFocused)
+
+
