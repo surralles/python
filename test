@@ -1,30 +1,53 @@
+import pygame
+from random import randint
+pygame.init()
 
---Este localscript va en StarterCharacterScripts
-local Character = script.Parent
-local Humanoid = Character:WaitForChild("Humanoid")
-local Animator = Humanoid:WaitForChild("Animator")
 
--- Crea un objeto Animation en el script y establece su ID
-local WalkAnimation = Instance.new("Animation")
-WalkAnimation.AnimationId = "rbxassetid://99884378496761"--Cambia este id por el de tu animación de caminar del personaje
-WalkAnimation.Parent = script
+#Crear una ventana de juego
+clock = pygame.time.Clock()
+back = (255, 255, 255) #color de fondo
+mw = pygame.display.set_mode((500, 500)) #ventana principal
+mw.fill(back)
 
--- Carga la animación en el Animator
-local WalkTrack = Animator:LoadAnimation(WalkAnimation)
 
--- Conecta la función al evento Running del Humanoid
-Humanoid.Running:Connect(function(speed)
-	if speed > 3 then
-		-- El personaje se está moviendo
-		if not WalkTrack.IsPlaying then
-			-- Asegura que la animación esté en bucle y se reproduzca
-			WalkTrack.Looped = true
-			WalkTrack:Play()
-		end
-	else
-		-- El personaje está parado
-		if WalkTrack.IsPlaying then
-			WalkTrack:Stop()
-		end
-	end
-end)
+#colores
+BLACK = (0, 0, 0)
+LIGHT_BLUE = (200, 200, 255)
+
+
+class TextArea():
+   def __init__(self, x=0, y=0, width=10, height=10, color=None):
+       """ área: un rectángulo en el lugar correcto y del color correcto """
+       #memorizar el rectángulo:
+       self.rect = pygame.Rect(x, y, width, height)
+       #Llenar color - el parámetro pasado o el color de fondo general
+       self.fill_color = color
+
+
+   #colocar texto
+   def set_text(self, text, fsize=12, text_color=BLACK):
+       self.text = text
+       self.image = pygame.font.Font(None, fsize).render(text, True, text_color)
+      
+   #dibujar un rectángulo con texto
+   def draw(self, shift_x=0, shift_y=0):
+       pygame.draw.rect(mw, self.fill_color, self.rect)
+       mw.blit(self.image, (self.rect.x + shift_x, self.rect.y + shift_y))   
+
+
+#crear tarjetas
+quest_card = TextArea(120, 100, 290, 70, LIGHT_BLUE)
+quest_card.set_text("Pregunta", 75)
+
+
+ans_card = TextArea(120, 240, 290, 70, LIGHT_BLUE)
+ans_card.set_text("Respuesta", 75)
+
+
+#Ciclo de juego principal
+while 1:
+   quest_card.draw(10,10)
+   ans_card.draw(10,10)
+  
+   pygame.display.update()
+   clock.tick(40)       
