@@ -1,53 +1,37 @@
-import pygame
-from random import randint
-pygame.init()
+users = ['max123', 'happy_girl', 'funnyguy', 'crazy.cat']
+amount_users = len(users)
+users.sort()
+i = 1
+print('Lista de usuarios:')
+for user in users:
+  print(i, '-', user)
+  i += 1
+print('Usuarios totales:', amount_users)
 
 
-#Crear una ventana de juego
-clock = pygame.time.Clock()
-back = (255, 255, 255) #color de fondo
-mw = pygame.display.set_mode((500, 500)) #ventana principal
-mw.fill(back)
+games = ['dota 2', 'cs go', 'warface', 'minecraft']
+searching = input('Solicitud:')
+searching = searching.lower()
+if searching in games:
+  print('Solicitud encontrada en deseos')
+else:
+  print('Deseo no existe')
 
 
-#colores
-BLACK = (0, 0, 0)
-LIGHT_BLUE = (200, 200, 255)
+games = list()
+game = input('Ingresar juego (0 - detener ingreso):')
+game = game.lower()
+while game != '0':
+   if game in games:
+       print('El juego ya está registrado')
+   else:
+       games.append(game)
+   game = input('Ingresar juego (0 - detener ingreso):')
+   game = game.lower()
+games.sort()
+print('Lista de juegos:', games)
 
 
-class TextArea():
-   def __init__(self, x=0, y=0, width=10, height=10, color=None):
-       """ área: un rectángulo en el lugar correcto y del color correcto """
-       #memorizar el rectángulo:
-       self.rect = pygame.Rect(x, y, width, height)
-       #Llenar color - el parámetro pasado o el color de fondo general
-       self.fill_color = color
 
 
-   #colocar texto
-   def set_text(self, text, fsize=12, text_color=BLACK):
-       self.text = text
-       self.image = pygame.font.Font(None, fsize).render(text, True, text_color)
-      
-   #dibujar un rectángulo con texto
-   def draw(self, shift_x=0, shift_y=0):
-       pygame.draw.rect(mw, self.fill_color, self.rect)
-       mw.blit(self.image, (self.rect.x + shift_x, self.rect.y + shift_y))   
 
-
-#crear tarjetas
-quest_card = TextArea(120, 100, 290, 70, LIGHT_BLUE)
-quest_card.set_text("Pregunta", 75)
-
-
-ans_card = TextArea(120, 240, 290, 70, LIGHT_BLUE)
-ans_card.set_text("Respuesta", 75)
-
-
-#Ciclo de juego principal
-while 1:
-   quest_card.draw(10,10)
-   ans_card.draw(10,10)
-  
-   pygame.display.update()
-   clock.tick(40)       
