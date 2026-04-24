@@ -1,37 +1,13 @@
-users = ['max123', 'happy_girl', 'funnyguy', 'crazy.cat']
-amount_users = len(users)
-users.sort()
-i = 1
-print('Lista de usuarios:')
-for user in users:
-  print(i, '-', user)
-  i += 1
-print('Usuarios totales:', amount_users)
+
+local set = script.Settings
+local sp = set.Speed
+local enabled = set.Enabled
+local hum = script.Parent:WaitForChild("DemonType")
+local humanim = hum:LoadAnimation(script:FindFirstChildOfClass("Animation"))
 
 
-games = ['dota 2', 'cs go', 'warface', 'minecraft']
-searching = input('Solicitud:')
-searching = searching.lower()
-if searching in games:
-  print('Solicitud encontrada en deseos')
-else:
-  print('Deseo no existe')
-
-
-games = list()
-game = input('Ingresar juego (0 - detener ingreso):')
-game = game.lower()
-while game != '0':
-   if game in games:
-       print('El juego ya está registrado')
-   else:
-       games.append(game)
-   game = input('Ingresar juego (0 - detener ingreso):')
-   game = game.lower()
-games.sort()
-print('Lista de juegos:', games)
-
-
-
-
-
+if enabled.Value == true then
+	humanim:Play()
+	humanim.Looped = true
+	humanim:AdjustSpeed(sp.Value)
+end 
