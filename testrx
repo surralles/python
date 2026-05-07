@@ -1,68 +1,96 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QWidget, QHBoxLayout, QVBoxLayout, QGroupBox, QRadioButton, QPushButton, QLabel)
+from pygame import *
 
 
-app = QApplication([])
+
+#clase padre para objetos
+class GameSprite(sprite.Sprite):
+   #constructor de clase
+   def __init__(self, player_image, player_x, player_y, player_speed):
+       super().__init__()
+       #cada objeto debe almacenar una propiedad image
+       self.image = transform.scale(image.load(player_image), (65, 65))
+       self.speed = player_speed
+       #cada objeto debe almacenar la propiedad rect – el rectángulo en el cual está inscrito
+       self.rect = self.image.get_rect()
+       self.rect.x = player_x
+       self.rect.y = player_y
 
 
-window = QWidget()
-window.setWindowTitle('Tarjeta de memoria')
+   def reset(self):
+       window.blit(self.image, (self.rect.x, self.rect.y))
 
 
-'''Interfaz para la aplicación de Tarjeta de memoria'''
-btn_OK = QPushButton('Responder') # botón de responder
-lb_Question = QLabel('¿En qué año se fundó Moscú?') # texto de pregunta
+#clase derivada para el objeto del jugador (controlado por las flechas)
+class Player(GameSprite):
+   def update(self):
+       keys = key.get_pressed()
+       if keys[K_LEFT] and self.rect.x > 5:
+           self.rect.x -= self.speed
+       if keys[K_RIGHT] and self.rect.x < win_width - 80:
+           self.rect.x += self.speed
+       if keys[K_UP] and self.rect.y > 5:
+           self.rect.y -= self.speed
+       if keys[K_DOWN] and self.rect.y < win_height - 80:
+           self.rect.y += self.speed
 
 
-RadioGroupBox = QGroupBox("Opciones de respuesta") # grupo en la pantalla para botones de radio con respuestas
-rbtn_1 = QRadioButton('1147')
-rbtn_2 = QRadioButton('1242')
-rbtn_3 = QRadioButton('1861')
-rbtn_4 = QRadioButton('1943')
+#clase heredera para el objeto enemigo (se mueve solo)
+class Enemy(GameSprite):
+   direction = "izquierda"
+   def update(self):
+       if self.rect.x <= 470:
+           self.direction = "derecha"
+       if self.rect.x >= win_width - 85:
+           self.direction = "izquierda"
 
 
-layout_ans1 = QHBoxLayout()   
-layout_ans2 = QVBoxLayout() # los verticales estarán dentro de los horizontales
-layout_ans3 = QVBoxLayout()
-layout_ans2.addWidget(rbtn_1) # dos respuestas en la primera columna
-layout_ans2.addWidget(rbtn_2)
-layout_ans3.addWidget(rbtn_3) # dos respuestas en la segunda columna
-layout_ans3.addWidget(rbtn_4)
+       if self.direction == "izquierda":
+           self.rect.x -= self.speed
+       else:
+           self.rect.x += self.speed
 
 
-layout_ans1.addLayout(layout_ans2)
-layout_ans1.addLayout(layout_ans3) # las columnas están en la misma línea
+#Escena del juego:
+win_width = 700
+win_height = 500
+window = display.set_mode((win_width, win_height))
+display.set_caption("Laberinto")
+background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
 
-RadioGroupBox.setLayout(layout_ans1) # el “panel” con opciones de respuesta está listo 
+#Personajes del juego:
+player = Player('hero.png', 5, win_height - 80, 4)
+monster = Enemy('cyborg.png', win_width - 80, 280, 2)
+final = GameSprite('treasure.png', win_width - 120, win_height - 80, 0)
 
 
-layout_line1 = QHBoxLayout() # pregunta
-layout_line2 = QHBoxLayout() # opciones de respuesta o resultados de prueba
-layout_line3 = QHBoxLayout() # botón de “Responder”
+game = True
+finish = False
+clock = time.Clock()
+FPS = 60
 
 
-layout_line1.addWidget(lb_Question, alignment=(Qt.AlignHCenter | Qt.AlignVCenter))
-layout_line2.addWidget(RadioGroupBox)
+#música
+mixer.init()
+mixer.music.load('jungles.ogg')
+mixer.music.play()
 
 
-layout_line3.addStretch(1)
-layout_line3.addWidget(btn_OK, stretch=2) # el botón debería ser grande
-layout_line3.addStretch(1)
+while game:
+   for e in event.get():
+       if e.type == QUIT:
+           game = False
+  
+   if finish != True:
+       window.blit(background,(0, 0))
+       player.update()
+       monster.update()
+      
+       player.reset()
+       monster.reset()
+       final.reset()
 
 
-# Ahora vamos a colocar las líneas que hemos creado una debajo de la otra:
-layout_card = QVBoxLayout()
-
-
-layout_card.addLayout(layout_line1, stretch=2)
-layout_card.addLayout(layout_line2, stretch=8)
-layout_card.addStretch(1)
-layout_card.addLayout(layout_line3, stretch=1)
-layout_card.addStretch(1)
-layout_card.setSpacing(5) # los espacios entre el contenido
-
-
-window.setLayout(layout_card)
-window.show()
-app.exec()
+   display.update()
+   clock.tick(FPS)
+)
