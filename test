@@ -1,17 +1,26 @@
 from pygame import *
+'''Clases requeridas'''
 
+
+#clase padre para objetos
 class GameSprite(sprite.Sprite):
-    def __init__(self, player_image, player_x, player_y, player_speed):
-        super().__init__()
-        self.image = transform.scale(image.load(player_image), (65, 65))
-        self.speed = player_speed
-        self.rect = self.image.get_rect()
-        self.rect.x = player_x
-        self.rect.y = player_y
-    
-    def reset(self):
+   #constructor de clase
+   def __init__(self, player_image, player_x, player_y, player_speed):
+       super().__init__()
+       # cada objeto debe almacenar una propiedad image
+       self.image = transform.scale(image.load(player_image), (55, 55))
+       self.speed = player_speed
+       # cada objeto debe almacenar la propiedad rect en la cual está inscrito
+       self.rect = self.image.get_rect()
+       self.rect.x = player_x
+       self.rect.y = player_y
+
+
+   def reset(self):
        window.blit(self.image, (self.rect.x, self.rect.y))
 
+
+#clase derivada para el objeto del jugador (controlado por las flechas)
 class Player(GameSprite):
    def update(self):
        keys = key.get_pressed()
@@ -25,21 +34,20 @@ class Player(GameSprite):
            self.rect.y += self.speed
 
 
+#clase derivada para el objeto enemigo (se mueve solo)
 class Enemy(GameSprite):
-   direction = "izquierda"
    def update(self):
        if self.rect.x <= 470:
-           self.direction = "derecha"
+           self.side = "derecha"
        if self.rect.x >= win_width - 85:
-           self.direction = "izquierda"
-
-
-       if self.direction == "izquierda":
+           self.side = "izquierda"
+       if self.side == "izquierda":
            self.rect.x -= self.speed
        else:
            self.rect.x += self.speed
 
 
+#clase para objetos de los obstáculos
 class Wall(sprite.Sprite):
    def __init__(self, color_1, color_2, color_3, wall_x, wall_y, wall_width, wall_height):
        super().__init__()
@@ -57,31 +65,28 @@ class Wall(sprite.Sprite):
        self.rect.y = wall_y
    def draw_wall(self):
        window.blit(self.image, (self.rect.x, self.rect.y))
+       #draw.rect(window, (self.color_1, self.color_2, self.color_3), (self.rect.x, self.rect.y, self.width, self.height))
 
 
+#Escena del juego:
 win_width = 700
 win_height = 500
-
 window = display.set_mode((win_width, win_height))
-background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 display.set_caption("Laberinto")
+background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
+
+#Personajes del juego:
 player = Player('hero.png', 5, win_height - 80, 4)
 monster = Enemy('cyborg.png', win_width - 80, 280, 2)
 final = GameSprite('treasure.png', win_width - 120, win_height - 80, 0)
 
-def reset_game():
-    player.rect.x = 5
-    player.rect.y = win_height - 80
-
-    monster.rect.x = win_width - 80
-    monster.rect.y = 280
 
 w1 = Wall(154, 205, 50, 100, 20 , 450, 10)
 w2 = Wall(154, 205, 50, 100, 480, 350, 10)
 w3 = Wall(154, 205, 50, 100, 20 , 10, 380)
 
-#w4= Wall(154, 205, 50, 200, 100 , 10, 300)
+
 
 
 game = True
@@ -89,62 +94,61 @@ finish = False
 clock = time.Clock()
 FPS = 60
 
+
 font.init()
 font = font.Font(None, 70)
 win = font.render('¡GANASTE!', True, (255, 215, 0))
 lose = font.render('¡PERDISTE!', True, (180, 0, 0))
 
+
 #música
 mixer.init()
 mixer.music.load('jungles.ogg')
 mixer.music.play()
+
+
 money = mixer.Sound('money.ogg')
 kick = mixer.Sound('kick.ogg')
 
 
 while game:
-    for e in event.get():
+   for e in event.get():
        if e.type == QUIT:
            game = False
   
-    if finish != True:
-    #if not finish:
-        window.blit(background,(0, 0))
-        player.update()
-    
-        monster.update()
+   if finish != True:
+       window.blit(background,(0, 0))
+       player.update()
+       monster.update()
       
-        player.reset()
-        monster.reset()
-        final.reset()
-   
-        w1.draw_wall()
-        w2.draw_wall()
-        w3.draw_wall()
-        w4.draw_wall()
-   
-        if sprite.collide_rect(player, monster) or sprite.collide_rect(player, w1) or sprite.collide_rect(player, w2)or sprite.collide_rect(player, w3):
+       player.reset()
+       monster.reset()
+       final.reset()
+
+
+       w1.draw_wall()
+       w2.draw_wall()
+       w3.draw_wall()
+
+
+       #Situación de “Derrota”
+       if sprite.collide_rect(player, monster) or sprite.collide_rect(player, w1) or sprite.collide_rect(player, w2)or sprite.collide_rect(player, w3):
            finish = True
            window.blit(lose, (200, 200))
            kick.play()
 
 
        #Situación de “Victoria”
-        if sprite.collide_rect(player, final):
+       if sprite.collide_rect(player, final):
            finish = True
            window.blit(win, (200, 200))
            money.play()
-    
-    '''else:
-        keys = key.get_pressed()
 
-        # Pulsar ESPACIO para reiniciar
-        if keys[K_SPACE]:
-            reset_game()
-            finish = False'''
 
-    display.update()
-    clock.tick(FPS)
+   display.update()
+   clock.tick(FPS)
+
+
 
 
 
