@@ -1,100 +1,54 @@
-import pygame
-pygame.init()
+from pygame import *
 
 
-back = (200, 255, 255)
-mw = pygame.display.set_mode((500, 500))
-mw.fill(back)
-clock = pygame.time.Clock()
+#necesitamos las siguientes imágenes:
+img_back = "galaxy.jpg" #fondo de juego
+img_hero = "rocket.png"
+img_enemy = "ufo.png"
 
 
-platform_x = 200
-platform_y = 330
-move_right = False
-move_left = False
-game_over = False
+# clase padre para otros objetos
+class GameSprite(sprite.Sprite):
+    # constructor de clase
+    def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
+        # llamamos al constructor de la clase (Sprite):
+        sprite.Sprite.__init__(self)
+
+        # cada objeto debe almacenar una propiedad image
+        self.image = transform.scale(image.load(player_image), (size_x, size_y))
+        self.speed = player_speed
+
+        # cada objeto debe almacenar la propiedad rect en la cual está inscrito
+        self.rect = self.image.get_rect()
+        self.rect.x = player_x
+        self.rect.y = player_y
+
+    # método que dibuja al personaje en la ventana
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
 
 
-class Area():
-  def __init__(self, x=0, y=0, width=10, height=10, color=None):
-      self.rect = pygame.Rect(x, y, width, height)
-      self.fill_color = back
-      if color:
-          self.fill_color = color
-  def color(self, new_color):
-      self.fill_color = new_color
-  def fill(self):
-      pygame.draw.rect(mw, self.fill_color, self.rect)
-  def collidepoint(self, x, y):
-      return self.rect.collidepoint(x, y)      
-  def colliderect(self, rect):
-      return self.rect.colliderect(rect)
+
+win_width = 700
+win_height = 500
+display.set_caption("Tirador")
+window = display.set_mode((win_width, win_height))
+background = transform.scale(image.load(img_back), (win_width, win_height))
 
 
-class Label(Area):
-  def set_text(self, text, fsize=12, text_color=(0, 0, 0)):
-      self.image = pygame.font.SysFont('verdana', fsize).render(text, True, text_color)
-  def draw(self, shift_x=0, shift_y=0):
-      self.fill()
-      mw.blit(self.image, (self.rect.x + shift_x, self.rect.y + shift_y))
+finish = False
+
+run = True 
+while run:
+   #Evento de pulsado del botón “Cerrar”
+   for e in event.get():
+       if e.type == QUIT:
+           run = False
+    if not finish:
+       #actualiza el fondo
+       window.blit(background,(0,0))
 
 
-class Picture(Area):
-  def __init__(self, filename, x=0, y=0, width=10, height=10):
-      Area.__init__(self, x=x, y=y, width=width, height=height, color=None)
-      self.image = pygame.image.load(filename)
-    
-  def draw(self):
-      mw.blit(self.image, (self.rect.x, self.rect.y))
 
 
-ball = Picture('ball.png', 160, 200, 50, 50)
-platform = Picture('platform.png', platform_x, platform_y, 100, 30)
-start_x = 5
-start_y = 5
-count = 9
-
-
-monsters = []
-for j in range(3):
-  y = start_y + (55 * j)
-  x = start_x + (27.5 * j)
-  for i in range (count):
-      d = Picture('enemy.png',x, y, 50, 50)
-      monsters.append(d)
-      x = x + 55
-  count = count - 1
-
-
-while not game_over:
-  ball.fill()
-  platform.fill()
-    
-  for event in pygame.event.get():
-      if event.type == pygame.QUIT:
-          game_over = True
-          
-      if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_RIGHT:
-              move_right = True
-          if event.key == pygame.K_LEFT:
-              move_left = True
-      elif event.type == pygame.KEYUP:
-          if event.key == pygame.K_RIGHT:
-              move_right = False
-          if event.key == pygame.K_LEFT:
-              move_left = False
-    
-  if move_right:
-      platform.rect.x +=3
-  if move_left:
-      platform.rect.x -=3
-
-  for m in monsters:
-      m.draw()
-      #si el monstruo es tocado por la pelota, remueve el monstruo de la lista y cambia la dirección de movimiento de la pelota
-      
-  platform.draw()
-  ball.draw()
-  pygame.display.update()
-  clock.tick(40)
+  time.delay(50)
