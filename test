@@ -1,7 +1,31 @@
+from djitellopy import Tello
+import time
+import cv2
+import os
+
+output_dir = "fotos_dron"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+    print(f"Directorio '{output_dir}' creado con éxito.")
+
+# --- CONTADOR PARA LAS FOTOS ---
+photo_count = 1
+tello = Tello()
+
+tello.connect()
+
+print(tello.get_battery())
 
 tello.streamon()
 frame_read = tello.get_frame_read()
 time.sleep(2)  # Espera para que la cámara inicialice bien
+
+
+tello.takeoff()
+
+tello.go_xyz_speed(100, 0, 100, 40)
+
+time.sleep(1)  # Estabilizar el dron
 
 # --- PRIMERA CAPTURA ---
 frame1 = frame_read.frame
@@ -22,4 +46,17 @@ else:
 # Simulamos que el dron hace algo en el aire (espera 2 segundos)
 time.sleep(2)
 
+tello.go_xyz_speed(-100, 0, -100, 40)
+
+"""tello.go_xyz_speed(100,100,100,40)
+tello.go_xyz_speed(-100,-100,-100,40)
+
+tello.go_xyz_speed(-100,100,100,40)
+tello.go_xyz_speed(100,-100,-100,40)
+
+tello.go_xyz_speed(-100,-100,100,40)
+tello.go_xyz_speed(100,100,-100,40)"""
+
+
+tello.land()
 
