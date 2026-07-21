@@ -1,13 +1,16 @@
-from djitellopy import Tello
-import time
-
-tello = Tello()
-tello.connect()
-print(tello.get_battery())
-tello.takeoff()
-
-
-
-
-
-tello.land()
+B=0
+while true do	
+	game.Lighting.ClockTime=B
+	B=B+0.1
+	if B>24 then B=0 end
+	
+	if B > 20 then workspace.WallTrans.Transparency=1  
+		           workspace.WallTrans.CanCollide = false end
+		
+	if B < 6 then workspace.WallTrans.Transparency=1 
+				  workspace.WallTrans.CanCollide = false end
+				
+	if B > 6 and B < 16 then workspace.WallTrans.Transparency=0
+		                     workspace.WallTrans.CanCollide = true end
+	wait()
+end
