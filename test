@@ -1,20 +1,71 @@
+local checkpoint = script.Parent
+local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
+
+local checkpointData = Instance.new("Folder")
+checkpointData.Name = "CheckpointData"
+checkpointData.Parent = ServerStorage
+
+print("SISTEMA DE CHECKPOINT INICIADO")
 
 
-print(workspace:FindFirstChild("WallTrans"))
-local Wall = workspace:WaitForChild("WallTrans")
-B=0
-while true do	
-	game.Lighting.ClockTime=B
-	B=B+0.1
-	if B>24 then B=0 end
-	
-	if B > 20 then Wall.Transparency=1  
-		           Wall.CanCollide = false end
-		
-	if B < 6 then Wall.Transparency=1 
-				  Wall.CanCollide = false end
-				
-	if B > 6 and B < 16 then Wall.Transparency=0
-		                     Wall.CanCollide = true end
-	wait()
-end
+-- GUARDAR CHECKPOINT
+checkpoint.Touched:Connect(function(hit)
+
+	local character = hit.Parent
+	local humanoid = character:FindFirstChild("Humanoid")
+
+	if humanoid then
+
+		local player = Players:GetPlayerFromCharacter(character)
+
+		if player then
+
+			print("CHECKPOINT TOCADO POR:", player.Name)
+
+			local savedCheckpoint =
+				checkpointData:FindFirstChild(tostring(player.UserId))
+
+			if not savedCheckpoint then
+
+				savedCheckpoint = Instance.new("ObjectValue")
+				savedCheckpoint.Name = tostring(player.UserId)
+				savedCheckpoint.Parent = checkpointData
+
+			end
+
+			savedCheckpoint.Value = checkpoint
+
+			print("CHECKPOINT GUARDADO:", checkpoint.Name)
+
+		end
+	end
+end)
+
+
+-- CUANDO EL JUGADOR APARECE
+Players.PlayerAdded:Connect(function(player)
+
+	player.CharacterAdded:Connect(function(character)
+
+		print("PERSONAJE CREADO PARA:", player.Name)
+
+		local savedCheckpoint =
+			checkpointData:FindFirstChild(tostring(player.UserId))
+
+		if savedCheckpoint and savedCheckpoint.Value then
+
+			print("TELETRANSPORTANDO AL CHECKPOINT")
+
+			local root =
+				character:WaitForChild("HumanoidRootPart")
+
+			task.wait(0.2)
+
+			root.CFrame =
+				savedCheckpoint.Value.CFrame +
+				Vector3.new(0, 5, 0)
+
+		end
+	end)
+end)
