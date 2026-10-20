@@ -1,71 +1,20 @@
-local checkpoint = script.Parent
-local Players = game:GetService("Players")
-local ServerStorage = game:GetService("ServerStorage")
-
-local checkpointData = Instance.new("Folder")
-checkpointData.Name = "CheckpointData"
-checkpointData.Parent = ServerStorage
-
-print("SISTEMA DE CHECKPOINT INICIADO")
-
-
--- GUARDAR CHECKPOINT
-checkpoint.Touched:Connect(function(hit)
-
-	local character = hit.Parent
-	local humanoid = character:FindFirstChild("Humanoid")
-
-	if humanoid then
-
-		local player = Players:GetPlayerFromCharacter(character)
-
-		if player then
-
-			print("CHECKPOINT TOCADO POR:", player.Name)
-
-			local savedCheckpoint =
-				checkpointData:FindFirstChild(tostring(player.UserId))
-
-			if not savedCheckpoint then
-
-				savedCheckpoint = Instance.new("ObjectValue")
-				savedCheckpoint.Name = tostring(player.UserId)
-				savedCheckpoint.Parent = checkpointData
-
-			end
-
-			savedCheckpoint.Value = checkpoint
-
-			print("CHECKPOINT GUARDADO:", checkpoint.Name)
-
-		end
-	end
-end)
-
-
--- CUANDO EL JUGADOR APARECE
-Players.PlayerAdded:Connect(function(player)
-
-	player.CharacterAdded:Connect(function(character)
-
-		print("PERSONAJE CREADO PARA:", player.Name)
-
-		local savedCheckpoint =
-			checkpointData:FindFirstChild(tostring(player.UserId))
-
-		if savedCheckpoint and savedCheckpoint.Value then
-
-			print("TELETRANSPORTANDO AL CHECKPOINT")
-
-			local root =
-				character:WaitForChild("HumanoidRootPart")
-
-			task.wait(0.2)
-
-			root.CFrame =
-				savedCheckpoint.Value.CFrame +
-				Vector3.new(0, 5, 0)
-
-		end
-	end)
-end)
+class Converter():
+   def __init__(self, usd):
+       self.usd = usd
+ 
+   def rub_to_usd(self, rub_value):
+       usd_value = rub_value/self.usd
+       print(round(usd_value, 2))
+ 
+   def usd_to_rub(self, usd_value):
+       rub_value = usd_value*self.usd
+       print(round(rub_value, 2))
+ 
+a = int(input('Introduzca el tipo de cambio USD'))
+b = int(input('Introduzca la suma a intercambiar'))
+conv = Converter(a)
+option = int(input('1 - dólares a rublos / 2 - rublos a dólares'))
+if option == 1:
+   conv.usd_to_rub(b)
+else:
+   conv.rub_to_usd(b)
