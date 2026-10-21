@@ -1,20 +1,28 @@
-class Converter():
-   def __init__(self, usd):
-       self.usd = usd
- 
-   def rub_to_usd(self, rub_value):
-       usd_value = rub_value/self.usd
-       print(round(usd_value, 2))
- 
-   def usd_to_rub(self, usd_value):
-       rub_value = usd_value*self.usd
-       print(round(rub_value, 2))
- 
-a = int(input('Introduzca el tipo de cambio USD'))
-b = int(input('Introduzca la suma a intercambiar'))
-conv = Converter(a)
-option = int(input('1 - dólares a rublos / 2 - rublos a dólares'))
-if option == 1:
-   conv.usd_to_rub(b)
-else:
-   conv.rub_to_usd(b)
+trainings = {
+   'Registro':{
+       'persona a cargo': 'Juan Peralta',
+       'temas': ['prevención de accidentes', 'trabajo en equipo'],
+       'fecha': '15.05'
+   },
+   'Desarrollo profesional':{
+       'persona a cargo': 'Sofía Bermudez',
+       'temas': ['liderazgo', 'habilidades de computación'],
+       'fecha': '20.11'
+   }
+}
+print('Sesiones de entrenamiento de ProTeam')
+print('1-nombres de las sesiones de entrenamiento, 2-información sobre la sesión de entrenamiento')
+action = input('Número de acción (apagar-salir):')
+while action != 'apagar':
+   if action == '1':
+       for training in trainings:
+           print('-', training)
+   if action == '2':
+       title = input('Nombre de la sesión de entrenamiento:')
+       if title in trainings:
+           print(trainings[title]['persona a cargo'])
+           print(trainings[title]['temas'])
+           print(trainings[title]['fecha'])
+       else:
+           print('¡No se encontró esa sesión de entrenamiento!')
+   action = input('Número de acción (apagar-salir):')
