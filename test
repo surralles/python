@@ -1,28 +1,11 @@
-trainings = {
-   'Registro':{
-       'persona a cargo': 'Juan Peralta',
-       'temas': ['prevención de accidentes', 'trabajo en equipo'],
-       'fecha': '15.05'
-   },
-   'Desarrollo profesional':{
-       'persona a cargo': 'Sofía Bermudez',
-       'temas': ['liderazgo', 'habilidades de computación'],
-       'fecha': '20.11'
-   }
-}
-print('Sesiones de entrenamiento de ProTeam')
-print('1-nombres de las sesiones de entrenamiento, 2-información sobre la sesión de entrenamiento')
-action = input('Número de acción (apagar-salir):')
-while action != 'apagar':
-   if action == '1':
-       for training in trainings:
-           print('-', training)
-   if action == '2':
-       title = input('Nombre de la sesión de entrenamiento:')
-       if title in trainings:
-           print(trainings[title]['persona a cargo'])
-           print(trainings[title]['temas'])
-           print(trainings[title]['fecha'])
-       else:
-           print('¡No se encontró esa sesión de entrenamiento!')
-   action = input('Número de acción (apagar-salir):')
+# the appearance of the application is described in the (single) instance of the App class
+# on which run() is called.
+
+from kivy.app import App
+
+# Let's create a descendant class App. The functionality of the application will be added in it.
+class MyApp(App):
+   pass
+
+app = MyApp()
+app.run()
