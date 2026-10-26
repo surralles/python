@@ -1,4 +1,4 @@
-# the appearance of the application is described in the (single) instance of the App class
+# TRIKIVY the appearance of the application is described in the (single) instance of the App class
 # on which run() is called.
 
 from kivy.app import App
@@ -6,6 +6,169 @@ from kivy.app import App
 # Let's create a descendant class App. The functionality of the application will be added in it.
 class MyApp(App):
    pass
+
+app = MyApp()
+app.run()
+
+
+
+#TRIKIVY_2   application with one widget.
+
+from kivy.app import App
+# all widgets are in separate modules inside kivy.uix:
+from kivy.uix.button import Button # button
+
+class MyApp(App):
+   # if the App class object has a build() method,
+   # then run() will execute this method
+   # and will display what "build" returns
+   def build(self):
+      btn = Button(text='This is a button')
+      return btn # always returns a widget!
+
+app = MyApp()
+app.run() # the widget of the Button class will be shown
+
+
+TRIKIVY_3
+from kivy.app import App
+from kivy.uix.button import Button # button
+from kivy.uix.label import Label # label
+from kivy.uix.boxlayout import BoxLayout # layout (it's a widget too!)
+
+class MyApp(App):
+   def build(self):
+      # when creating a widget, you can set the values of its properties.
+      # Widget constructors only accept named parameters!
+      txt = Label(text='This is a label') 
+      btn = Button(text='This is a button')
+      layout = BoxLayout()
+      layout.add_widget(txt)
+      layout.add_widget(btn)
+      return layout # returns a widget that
+                    # controls the layout of its children - buttons and labels
+
+MyApp().run()
+
+
+TRIKIVY_3_1
+# arrangement of widgets "on top of each other"
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+class MyApp(App):
+   def build(self):
+      txt = Label(text='This is a label')
+      btn = Button(text='This is a button')
+      btn.add_widget(Button(text='This is a button too')) # the new button is a descendant of the first button
+      layout = BoxLayout()
+      layout.add_widget(txt)
+      layout.add_widget(btn) # this command makes two buttons visible at once (try removing)
+      return layout
+
+MyApp().run()
+# the second button is not visually on the first!
+# the layout of their children is controlled only by layout widgets (layout)
+# other widgets (for example, a button) do not affect the location and size of their descendants
+
+TRIKIVY_4
+# event handling "clicked on the button"
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+def tst():
+    print('HELLO!')
+
+class MyApp(App):
+    def build(self):
+        txt = Label(text='This is a label')
+        btn = Button(text='This is a button')
+        btn.on_press = tst # the on_press method of the btn object becomes equal to the tst function
+                           # that is, calling btn.on_press() is equivalent to calling tst()
+                           # a method named on_press is called automatically when the button is clicked
+                             
+        layout = BoxLayout()
+        layout.add_widget(txt)
+        layout.add_widget(btn)
+        return layout
+
+MyApp().run() # the program monitors the click on the button and prints the text
+
+TRIKIVY_4_1
+# button and label subscribe to events
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+def tst():
+    print('HELLO!')
+def tst1(event):
+    print(event)
+
+class MyApp(App):
+    def build(self):
+        txt = Label(text='This is a label')
+        btn = Button(text='This is a button')
+        btn.on_press = tst # the btn.on_press method is now the same as the tst function
+        # the label does not have an on_press method, it has an on_touch_down
+        # (touched with the mouse while holding down a key or with a finger on the touch screen):
+        txt.on_touch_down = tst1 # the txt.on_touch_down method is now the same as the tst1 function
+                                 # so this function will be called automatically when you click on the label,
+                                 # and additional information about the event will be transmitted to it
+        layout = BoxLayout()
+        layout.add_widget(txt)
+        layout.add_widget(btn)
+        return layout
+
+MyApp().run() # check what will be printed when you click on the button and on the label
+
+
+TRIKIVY_5
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
+# A screen (an object of the Screen class) is a layout widget (Screen is a descendant of the RelativeLayout class).
+# ScreenManager is a special widget that makes one of the screens specified in it visible.
+
+class FirstScr(Screen):
+    def __init__(self, name='first'):
+        super().__init__(name=name) # the name of the screen must be passed to the constructor of the Screen class
+        btn = Button(text="Switch to another screen")
+        btn.on_press = self.next
+        self.add_widget(btn) # screen is a widget on which all others (descendants) can be created
+
+    def next(self):
+        self.manager.transition.direction = 'left' # the Screen object has a "manager" property
+                                                   # - is a link to the parent
+        self.manager.current = 'second'
+
+class SecondScr(Screen):
+    def __init__(self, name='second'):
+        super().__init__(name=name)
+        btn = Button(text="Come back, come back!")
+        btn.on_press = self.next
+        self.add_widget(btn)
+        
+    def next(self):
+        self.manager.transition.direction = 'right'
+        self.manager.current = 'first'
+
+class MyApp(App):
+    def build(self):
+        sm = ScreenManager()
+        sm.add_widget(FirstScr())
+        sm.add_widget(SecondScr())
+        # FirstScr will be shown because it was added first. This can be changed like this:
+        # sm.current = 'second'
+        return sm
 
 app = MyApp()
 app.run()
