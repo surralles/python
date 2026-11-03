@@ -1,4 +1,4 @@
- 
+
 class SecondScr(Screen):
    def __init__(self, **kwargs):
        super().__init__(**kwargs)
@@ -26,3 +26,44 @@ class SecondScr(Screen):
        vl.add_widget(hl)
        self.add_widget(vl)
        btn_false.on_press = self.change_text
+ 
+   def change_text(self):
+       self.txt.text = self.input.text + '? No funcionó ...'       
+ 
+ 
+class ThirdScr(Screen):
+   def __init__(self, **kwargs):
+       super().__init__(**kwargs)
+ 
+       layout = BoxLayout(orientation='vertical')
+       btn_back = ScrButton(self, direction='down', goal='main', text="Atrás", size_hint=(1, None), height='40sp')
+       test_label = Label(text = "Tu propia pantalla")
+       layout.add_widget(test_label)
+       layout.add_widget(btn_back)
+       self.add_widget(layout)
+
+class FourthScr(Screen):
+   def __init__(self, **kwargs):
+       super().__init__(**kwargs)
+ 
+       vl = BoxLayout(orientation='vertical', spacing=8)
+       a = 'Iniciar ' + 'Elección: 3 ' * 200
+ 
+       test_label = Label(text = "Additional task",size_hint=(0.3,None))
+
+       btn_back = ScrButton(self, direction='left', goal='main', text="Atrás", size_hint=(1, .2), pos_hint={'center-x': 0.5})
+ 
+       self.label = Label(text=a, size_hint_y=None, font_size='24sp', halign='left', valign='top')  
+       self.label.bind(size=self.resize)
+       self.scroll = ScrollView(size_hint=(1, 1))
+       self.scroll.add_widget(self.label)
+
+       vl.add_widget(test_label)
+       vl.add_widget(btn_back)
+       vl.add_widget(self.scroll)
+       self.add_widget(vl)
+ 
+   def resize(self, *args):
+       self.label.text_size = (self.label.width, None)
+       self.label.texture_update()
+       self.label.height = self.label.texture_size[1]
