@@ -1,127 +1,160 @@
 from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
  
-class ScrButton(Button):
-   def __init__(self, screen, direction='right', goal='main', **kwargs):
+from instructions import txt_instruction, txt_test1, txt_test2, txt_test3, txt_sits
+from ruffier import test
+ 
+age = 7
+name = ""
+p1, p2, p3 = 0, 0, 0
+ 
+class InstrScr(Screen):
+   def __init__(self, **kwargs):
        super().__init__(**kwargs)
-       self.screen = screen
-       self.direction = direction
-       self.goal = goal
-   def on_press(self):
-       self.screen.manager.transition.direction = self.direction
-       self.screen.manager.current = self.goal
+ 
+       instr = Label(text=txt_instruction)
+ 
+       lbl1 = Label(text='Ingresar el nombre:', halign='right')
+       self.in_name = TextInput(multiline=False)
+       lbl2 = Label(text='Ingresar la edad:', halign='right')
+ 
+       self.in_age = TextInput(text='7', multiline=False) 
+       self.btn = Button(text='Inicio', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+       self.btn.on_press = self.next
+ 
+       line1 = BoxLayout(size_hint=(0.8, None), height='30sp')
+       line2 = BoxLayout(size_hint=(0.8, None), height='30sp')
+       line1.add_widget(lbl1)
+       line1.add_widget(self.in_name)
+       line2.add_widget(lbl2)
+       line2.add_widget(self.in_age)
+ 
+       outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+       outer.add_widget(instr)
+       outer.add_widget(line1)
+       outer.add_widget(line2)
+       outer.add_widget(self.btn)
+ 
+       self.add_widget(outer)
+ 
+   def next(self):
+           global name
+           name = self.in_name.text
+           self.manager.current = 'pulse1'
+ 
+class PulseScr(Screen):
+   def __init__(self, **kwargs):
+       super().__init__(**kwargs)
       
-class MainScr(Screen):
+       instr = Label(text=txt_test1)
+      
+       line = BoxLayout(size_hint=(0.8, None), height='30sp') 
+       lbl_result = Label(text='Ingresar el resultado:', halign='right')
+       self.in_result = TextInput(text='0', multiline=False)
+      
+       line.add_widget(lbl_result)
+       line.add_widget(self.in_result)
+ 
+       self.btn = Button(text='Siguiente', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+       self.btn.on_press = self.next
+ 
+       outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+       outer.add_widget(instr)
+       outer.add_widget(line)
+       outer.add_widget(self.btn)
+ 
+       self.add_widget(outer)
+ 
+   def next(self):
+       global p1
+       p1 = int(self.in_result.text)
+       self.manager.current = 'sits'
+ 
+class CheckSits(Screen):
    def __init__(self, **kwargs):
        super().__init__(**kwargs)
  
-       vl = BoxLayout(orientation='vertical', padding=8, spacing=8)
-       hl = BoxLayout()
-       txt = Label(text= 'Escoger una pantalla')
+       instr = Label(text=txt_sits)
  
-       vl.add_widget(ScrButton(self, direction='down', goal='first', text="1"))
-       vl.add_widget(ScrButton(self, direction='left', goal='second', text="2"))
-       vl.add_widget(ScrButton(self, direction='up', goal='third', text="3"))
-       vl.add_widget(ScrButton(self, direction='right', goal='fourth', text="4"))
+       self.btn = Button(text='Siguiente', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+       self.btn.on_press = self.next
  
-       hl.add_widget(txt)
-       hl.add_widget(vl)
-       self.add_widget(hl)
+       outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+       outer.add_widget(instr)
+       outer.add_widget(self.btn)
  
-class FirstScr(Screen):
+       self.add_widget(outer)
+ 
+   def next(self):
+       self.manager.current = 'pulse2'
+ 
+class PulseScr2(Screen):
    def __init__(self, **kwargs):
        super().__init__(**kwargs)
  
-       vl = BoxLayout(orientation='vertical', size_hint=(.5, .5), pos_hint={'center_x': 0.5, 'center_y': 0.5})
-       btn = Button(text= 'Elección: 1', size_hint=(.5, 1), pos_hint={'left': 0})
-       btn_back = ScrButton(self, direction='up', goal='main', text="Atrás", size_hint=(.5, 1), pos_hint={'right': 1})
-       vl.add_widget(btn)
-       vl.add_widget(btn_back)
-       self.add_widget(vl)
+       instr = Label(text=txt_test3)
  
-class SecondScr(Screen):
+       line1 = BoxLayout(size_hint=(0.8, None), height='30sp')
+       lbl_result1 = Label(text='Resultado:', halign='right')
+       self.in_result1 = TextInput(text='0', multiline=False)
+ 
+       line1.add_widget(lbl_result1)
+       line1.add_widget(self.in_result1)
+ 
+       line2 = BoxLayout(size_hint=(0.8, None), height='30sp')
+       lbl_result2 = Label(text='Resultado después de descanso:', halign='right')
+       self.in_result2 = TextInput(text='0', multiline=False)
+ 
+       line2.add_widget(lbl_result2)
+       line2.add_widget(self.in_result2)
+ 
+       self.btn = Button(text='Finalizar', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+       self.btn.on_press = self.next
+ 
+       outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+       outer.add_widget(instr)
+       outer.add_widget(line1)
+       outer.add_widget(line2)
+       outer.add_widget(self.btn)
+ 
+       self.add_widget(outer)
+ 
+   def next(self):
+       global p2, p3
+       p2 = int(self.in_result1.text)
+       p3 = int(self.in_result2.text)
+       self.manager.current = 'result'
+ 
+class Result(Screen):
    def __init__(self, **kwargs):
        super().__init__(**kwargs)
  
-       vl = BoxLayout(orientation='vertical')
+       self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+       self.instr = Label(text = '')
+       self.outer.add_widget(self.instr)
  
-       self.txt = Label(text= 'Elección: 2') 
-       vl.add_widget(self.txt)
-
-       hl_0 = BoxLayout(size_hint=(0.8, None), height='30sp')
-       lbl1 = Label(text='Ingresa tu contraseña:', halign='right')
-       self.input = TextInput(multiline=False)
-
-       hl_0.add_widget(lbl1)
-       hl_0.add_widget(self.input)
-       vl.add_widget(hl_0)
+       self.add_widget(self.outer)
+       self.on_enter = self.before
+  
+   def before(self):
+       global name
+       self.instr.text = name + '\n' + test(p1, p2, p3, age)
  
-       
-       hl = BoxLayout(size_hint=(0.5, 0.2), pos_hint={'center_x': 0.5})
-       btn_false = Button(text="¡OK!")
-       btn_back = ScrButton(self, direction='right', goal='main', text="Atrás")
-
-       hl.add_widget(btn_false)
-       hl.add_widget(btn_back)
-       vl.add_widget(hl)
-       self.add_widget(vl)
-       btn_false.on_press = self.change_text
- 
-   def change_text(self):
-       self.txt.text = self.input.text + '? No funcionó ...'       
- 
- 
-class ThirdScr(Screen):
-   def __init__(self, **kwargs):
-       super().__init__(**kwargs)
- 
-       layout = BoxLayout(orientation='vertical')
-       btn_back = ScrButton(self, direction='down', goal='main', text="Atrás", size_hint=(1, None), height='40sp')
-       test_label = Label(text = "Tu propia pantalla")
-       layout.add_widget(test_label)
-       layout.add_widget(btn_back)
-       self.add_widget(layout)
-
-class FourthScr(Screen):
-   def __init__(self, **kwargs):
-       super().__init__(**kwargs)
- 
-       vl = BoxLayout(orientation='vertical', spacing=8)
-       a = 'Iniciar ' + 'Elección: 3 ' * 200
- 
-       test_label = Label(text = "Additional task",size_hint=(0.3,None))
-
-       btn_back = ScrButton(self, direction='left', goal='main', text="Atrás", size_hint=(1, .2), pos_hint={'center-x': 0.5})
- 
-       self.label = Label(text=a, size_hint_y=None, font_size='24sp', halign='left', valign='top')  
-       self.label.bind(size=self.resize)
-       self.scroll = ScrollView(size_hint=(1, 1))
-       self.scroll.add_widget(self.label)
-
-       vl.add_widget(test_label)
-       vl.add_widget(btn_back)
-       vl.add_widget(self.scroll)
-       self.add_widget(vl)
- 
-   def resize(self, *args):
-       self.label.text_size = (self.label.width, None)
-       self.label.texture_update()
-       self.label.height = self.label.texture_size[1]
-
-class MyApp(App):
+class HeartCheck(App):
    def build(self):
        sm = ScreenManager()
-       sm.add_widget(MainScr(name='main'))
-       sm.add_widget(FirstScr(name='first'))
-       sm.add_widget(SecondScr(name='second'))
-       sm.add_widget(ThirdScr(name='third'))
-       sm.add_widget(FourthScr(name='fourth'))
- 
+       sm.add_widget(InstrScr(name='instr'))
+       sm.add_widget(PulseScr(name='pulse1'))
+       sm.add_widget(CheckSits(name='sits'))
+       sm.add_widget(PulseScr2(name='pulse2'))
+       sm.add_widget(Result(name='result'))
        return sm
  
-MyApp().run()
+app = HeartCheck()
+app.run()
